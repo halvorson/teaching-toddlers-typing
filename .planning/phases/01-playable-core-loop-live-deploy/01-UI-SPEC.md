@@ -251,7 +251,7 @@ requirement mandates it.
 **Only literal copy string in Phase 1:** the browser tab `<title>` — `Teaching Toddlers
 Typing` (locked in CONTEXT.md; overrides the "Keyboard Quest" product name per the
 user's explicit choice, while still satisfying PROJECT.md's "generic branding, no
-the child reference" decision).
+real name reference" decision).
 
 ---
 

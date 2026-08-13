@@ -15,7 +15,7 @@
 - Vite `base` config must be `/teaching-toddlers-typing/`
 - Repo visibility: Public (required for free-tier GitHub Pages via Actions)
 - Claude creates and pushes the GitHub repo now via the authenticated `gh` CLI (account: halvorson) — do not wait on the user to create it manually
-- Browser tab `<title>`: "Teaching Toddlers Typing" (user's explicit choice — overrides the "Keyboard Quest" product name for the page title; still satisfies PROJECT.md's "generic branding, no the child reference" decision)
+- Browser tab `<title>`: "Teaching Toddlers Typing" (user's explicit choice — overrides the "Keyboard Quest" product name for the page title; still satisfies PROJECT.md's "generic branding, no real name reference" decision)
 - Deploy via the official 3-action GitHub Actions workflow (configure-pages, upload-pages-artifact, deploy-pages), triggered on push to `main`, per CLAUDE.md
 
 **Core Gameplay Visual & Interaction**

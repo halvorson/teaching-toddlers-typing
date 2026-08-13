@@ -62,7 +62,7 @@ Every correct physical key press produces an immediate, delightful, low-stakes c
 | No dev/staging branch | Solo hobby project for family use; simplicity over process | — Pending |
 | Alphabet mode is sequential A→Z (not random) | Teaches alphabet order distinctly from Letters mode | — Pending |
 | Stats collected per-session but not shown live | Keeps gameplay screen distraction-free now; data model ready for a future game-over/pause screen | — Pending |
-| Generic branding (no "the child" in title) | Keeps the app easily shareable with other families | — Pending |
+| Generic branding (no real name in title) | Keeps the app easily shareable with other families | — Pending |
 
 ## Evolution
 
