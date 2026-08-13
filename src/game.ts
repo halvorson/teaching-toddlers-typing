@@ -1,38 +1,75 @@
 /**
- * Core Letters-mode state: a fixed A-Z target pool, no-repeat random selection,
- * physical-key code mapping, and safe (textContent-only) DOM rendering.
+ * Generalized game-mode primitives: pool-parameterized random selection,
+ * physical-key code mapping (letters vs. digits), and safe (textContent-only)
+ * DOM rendering. Phase 1's Letters-only single-pool selection and code
+ * mapping are replaced by pool-and-mode-aware equivalents so Letters, Numbers
+ * and (later) Alphabet mode all go through the same code.
  */
+
+import type { GameMode } from './game-screen'
 
 export const LETTERS: readonly string[] = Object.freeze([
   'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
   'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
 ])
 
+/** Single-digit pool 0-9 for Numbers mode. */
+export const DIGITS = Object.freeze(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
+
 /**
- * Selects a random letter from LETTERS. When `exclude` is supplied, the
- * excluded letter is filtered out of the candidate pool before indexing, so
- * it is structurally impossible to return it (no retry loop).
+ * Selects a random member of `pool`. When `exclude` is supplied, the excluded
+ * member is filtered out of the candidate pool before indexing, so it is
+ * structurally impossible to return it (no retry loop).
  */
-export function pickTarget(exclude?: string): string {
-  const pool = exclude === undefined ? LETTERS : LETTERS.filter((letter) => letter !== exclude)
-  const index = Math.floor(Math.random() * pool.length)
-  return pool[index]
+export function pickRandom(pool: readonly string[], exclude?: string): string {
+  const candidates = exclude === undefined ? pool : pool.filter((member) => member !== exclude)
+  const index = Math.floor(Math.random() * candidates.length)
+  return candidates[index]
 }
 
-/** Maps an uppercase A-Z letter to its physical-key `KeyboardEvent.code` identifier. */
-export function targetCode(letter: string): string {
-  return `Key${letter}`
+/** Maps an uppercase A-Z letter to its physical-key `KeyboardEvent.code`
+ * identifier. Returns an array (a single element) so it shares a signature
+ * with `digitCode`. */
+export function letterCode(letter: string): readonly string[] {
+  return [`Key${letter}`]
 }
 
 /**
- * Renders the target letter via textContent (never innerHTML) and
+ * Maps a digit to the physical-key codes that should count as a match: the
+ * numeric row's `Digit${n}` identifier and the numeric keypad's `Numpad${n}`
+ * identifier. The alphabetic row's `Key` prefix must never be applied to a
+ * digit — that combination is a string no real keyboard emits (verified
+ * against MDN's Keyboard_event_code_values, see 02-RESEARCH.md Pitfall 2).
+ * Accepting the keypad alongside the numeric row is a deliberate forgiving
+ * choice (02-RESEARCH.md Assumptions Log A1) — an unexpected keypad press
+ * from a hunting toddler is harmless to accept.
+ */
+export function digitCode(digit: string): readonly string[] {
+  return [`Digit${digit}`, `Numpad${digit}`]
+}
+
+/**
+ * The single function every mode's match check goes through. Numbers mode
+ * matches against the digit-row/keypad codes; every other mode matches
+ * against the alphabetic-row code.
+ */
+export function acceptableCodes(target: string, mode: GameMode): readonly string[] {
+  if (mode === 'numbers') {
+    return digitCode(target)
+  } else {
+    return letterCode(target)
+  }
+}
+
+/**
+ * Renders the target character via textContent (never an HTML string) and
  * re-triggers the 100ms opacity crossfade declared in style.css by dipping
  * opacity to 0, swapping the text, then restoring opacity to 1 so the
  * element's own `transition: opacity 100ms ease-out` animates the change.
  */
-export function renderTarget(el: HTMLElement, letter: string): void {
+export function renderTarget(el: HTMLElement, target: string): void {
   el.style.opacity = '0'
-  el.textContent = letter
+  el.textContent = target
   // Force a reflow so the browser registers the opacity: 0 state before it
   // is set back to 1 — otherwise the two assignments would coalesce and no
   // transition would play.
