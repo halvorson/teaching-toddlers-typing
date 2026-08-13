@@ -12,6 +12,8 @@ let currentTarget = pickTarget()
 renderTarget(target, currentTarget)
 
 document.addEventListener('keydown', (event: KeyboardEvent) => {
+  if (event.repeat) return // CORE-04: ignore auto-repeated keydowns entirely
+
   if (event.code === targetCode(currentTarget)) {
     currentTarget = pickTarget(currentTarget)
     renderTarget(target, currentTarget)
@@ -22,6 +24,8 @@ document.addEventListener('keydown', (event: KeyboardEvent) => {
 
     void celebrate(target.getBoundingClientRect())
   } else {
-    // Incorrect-match handling arrives in Task 2.
+    app.classList.remove('incorrect-flash')
+    void app.offsetWidth
+    app.classList.add('incorrect-flash')
   }
 })
