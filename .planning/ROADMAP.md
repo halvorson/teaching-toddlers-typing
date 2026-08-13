@@ -15,6 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Playable Core Loop & Live Deploy** - A single game mode is playable end-to-end, live on GitHub Pages (completed 2026-08-13)
 - [ ] **Phase 2: Menu, Game Modes & Fullscreen** - Full menu, all three modes, fullscreen play, and share link
+- [ ] **Phase 2.1: Progression Trail & Celebration Polish (INSERTED)** - Ambient star trail on correct matches, bigger/viewport-scaled confetti
 - [ ] **Phase 3: Sound & Audio Settings** - Correct matches chime and speak, with a sound toggle
 - [ ] **Phase 4: Session Statistics** - Parents can review and reset accuracy, speed, and reaction-time stats
 
@@ -60,6 +61,26 @@ Plans:
 **Plans**: TBD
 **UI hint**: yes
 
+### Phase 2.1: Progression Trail & Celebration Polish (INSERTED)
+
+**Goal**: Correct matches leave a quiet, persistent ambient visual trail (never a stats HUD), and the celebration burst reads clearly at any screen size — the two polish items flagged as higher priority than Phase 3/4
+**Mode:** mvp
+**Depends on**: Phase 2
+**Requirements**: TRAIL-01, TRAIL-02, CELEB-01, CELEB-02
+**Success Criteria** (what must be TRUE):
+
+  1. Each correct match adds a subtle star to a persistent background trail — purely decorative, no numbers or stats surfaced, distinct from the deferred POLISH-02 stats HUD
+  2. The trail persists across the play session by default; a Settings toggle (default off) can make it reset on an incorrect key press instead
+  3. The confetti celebration scales with viewport/fullscreen size so it's clearly visible on high-resolution monitors, not just small windows
+  4. The confetti burst travels further / covers more area than Phase 1's tuning, at the same animation speed
+
+**Plans**: TBD
+**UI hint**: yes
+
+Plans:
+
+- [ ] TBD (run /gsd:plan-phase 2.1 to break down)
+
 ### Phase 3: Sound & Audio Settings
 
 **Goal**: Correct matches feel and sound celebratory, with a simple parent-facing sound control
@@ -95,11 +116,12 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4
+Phases execute in numeric order: 1 → 2 → 2.1 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Playable Core Loop & Live Deploy | 2/2 | Complete    | 2026-08-13 |
 | 2. Menu, Game Modes & Fullscreen | 0/TBD | Not started | - |
+| 2.1. Progression Trail & Celebration Polish (INSERTED) | 0/TBD | Not started | - |
 | 3. Sound & Audio Settings | 0/TBD | Not started | - |
 | 4. Session Statistics | 0/TBD | Not started | - |

@@ -61,6 +61,13 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **DEPLOY-01**: App builds via Vite and deploys automatically to GitHub Pages on every push to main
 - [x] **DEPLOY-02**: A minimal working deploy is validated early (before full game logic) to de-risk the GitHub Pages base-path config
 
+### Progression & Celebration Polish
+
+- [ ] **TRAIL-01**: A correct match adds a subtle star to a persistent ambient background trail — decorative only, no numbers or stats shown — that stays visible across the play session
+- [ ] **TRAIL-02**: A Settings toggle controls whether the trail resets on an incorrect key press, defaulting to off (trail persists through mistakes)
+- [ ] **CELEB-01**: The correct-match celebration burst scales relative to viewport/fullscreen size so it reads clearly on high-resolution displays, not just small windows
+- [ ] **CELEB-02**: The correct-match celebration burst travels further and covers more area (bigger explosion / longer drop) while keeping the same animation speed/timing
+
 ## v2 Requirements
 
 Deferred to future release. Tracked but not in current roadmap.
@@ -118,11 +125,15 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SHARE-01 | Phase 2 | Pending |
 | DEPLOY-01 | Phase 1 | Complete |
 | DEPLOY-02 | Phase 1 | Complete |
+| TRAIL-01 | Phase 2.1 | Pending |
+| TRAIL-02 | Phase 2.1 | Pending |
+| CELEB-01 | Phase 2.1 | Pending |
+| CELEB-02 | Phase 2.1 | Pending |
 
 **Coverage:**
 
-- v1 requirements: 27 total
-- Mapped to phases: 27
+- v1 requirements: 31 total
+- Mapped to phases: 31
 - Unmapped: 0 ✓
 
 ---

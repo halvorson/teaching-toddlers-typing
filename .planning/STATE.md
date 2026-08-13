@@ -3,17 +3,17 @@ gsd_state_version: 1.0
 current_phase: 2
 current_phase_name: Menu, Game Modes & Fullscreen
 status: planning
-stopped_at: Completed 01-02-PLAN.md
-last_updated: "2026-08-13T14:08:01.173Z"
+stopped_at: Phase 2 UI-SPEC approved
+last_updated: "2026-08-13T15:36:02.832Z"
 last_activity: 2026-08-13
 last_activity_desc: Phase 01 complete, transitioned to Phase 2
-state_head: 7a8f084628a759ad795a233957114a8da233e91b
+state_head: 39a583c7207f941cbc733269df3fdafacd969b10
 progress:
-  total_phases: 4
+  total_phases: 5
   completed_phases: 1
   total_plans: 2
   completed_plans: 2
-  percent: 25
+  percent: 20
 ---
 
 # Project State
@@ -88,6 +88,10 @@ None yet.
 
 - Phase 2 (fullscreen handling): iOS Safari fullscreen support varies by OS version — validate directly against the family's actual hardware rather than assuming from docs (research flag).
 
+### Roadmap Evolution
+
+- Phase 2.1 inserted after Phase 2: Progression Trail & Celebration Polish — ambient star trail on correct matches + viewport-scaled/bigger confetti, per user feedback while Phase 2 was in flight (URGENT)
+
 ## Deferred Items
 
 Items acknowledged and carried forward from previous milestone close:
@@ -98,6 +102,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-08-13T14:15:00Z
-Stopped at: Phase 1 complete (human-validated) and live at https://halvorson.github.io/teaching-toddlers-typing/, ready to plan Phase 2
-Resume file: None
+Last session: 2026-08-13T15:34:06.468Z
+Stopped at: Phase 2 UI-SPEC approved
+Resume file: .planning/phases/02-menu-game-modes-fullscreen/02-UI-SPEC.md
