@@ -10,7 +10,7 @@
  */
 
 import type { GameMode } from './game-screen'
-import { shareCurrentUrl } from './clipboard'
+import { currentShareUrl, shareCurrentUrl } from './clipboard'
 
 export type MenuRow = 'letters' | 'numbers' | 'alphabet' | 'stats' | 'settings' | 'share' | 'quit'
 
@@ -46,6 +46,7 @@ let focusIndex = 0
 let shareLabelEl: HTMLSpanElement | null = null
 let shareButtonEl: HTMLButtonElement | null = null
 let copiedTimeoutId: number | null = null
+let shareFallbackEl: HTMLDivElement | null = null
 
 function isGameplayRow(row: MenuRow): row is GameMode {
   return (GAMEPLAY_ROWS as readonly string[]).includes(row)
@@ -80,6 +81,10 @@ function resetShareFeedback(): void {
   if (shareLabelEl) {
     shareLabelEl.textContent = MENU_LABELS.share
   }
+  if (shareFallbackEl) {
+    shareFallbackEl.remove()
+    shareFallbackEl = null
+  }
 }
 
 /**
@@ -99,6 +104,43 @@ function showCopiedFeedback(): void {
 }
 
 /**
+ * The last-resort tier's UI: a short plain-language explanation plus a
+ * read-only, pre-selected text box holding the link, inserted directly
+ * after the Share row. The URL comes through currentShareUrl() — the same
+ * single source every other tier reads — so the link a parent copies by
+ * hand can never disagree with the link an automatic tier would have
+ * copied.
+ */
+function renderManualFallback(): void {
+  if (!shareButtonEl) return
+
+  const panel = document.createElement('div')
+  panel.className = 'share-manual'
+
+  const hint = document.createElement('p')
+  hint.className = 'share-manual__hint'
+  hint.textContent = "Couldn't copy the link automatically — select and copy it here:"
+
+  const urlBox = document.createElement('input')
+  urlBox.className = 'share-manual__url'
+  urlBox.type = 'text'
+  urlBox.readOnly = true
+  urlBox.value = currentShareUrl()
+
+  panel.appendChild(hint)
+  panel.appendChild(urlBox)
+
+  shareButtonEl.after(panel)
+  shareFallbackEl = panel
+
+  // select() rather than a native focus call — this file's single
+  // focus-method call already belongs to focusRow(); select() gives the
+  // input focus as a side effect anyway, so the link is highlighted and
+  // ready for a single Cmd/Ctrl-C.
+  urlBox.select()
+}
+
+/**
  * Runs the copy chain and renders the result. The call to the chain below
  * is the first asynchronous step in this function, for the same Safari
  * activation-window reason documented in clipboard.ts — resetShareFeedback()
@@ -111,7 +153,7 @@ async function runShare(): Promise<void> {
     showCopiedFeedback()
     return
   }
-  // Task 2 appends the manual-copy fallback panel here.
+  renderManualFallback()
 }
 
 /**
@@ -281,4 +323,8 @@ export function unmountMenu(): void {
   }
   shareLabelEl = null
   shareButtonEl = null
+  if (shareFallbackEl) {
+    shareFallbackEl.remove()
+    shareFallbackEl = null
+  }
 }
