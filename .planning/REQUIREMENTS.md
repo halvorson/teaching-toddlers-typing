@@ -10,10 +10,10 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Core Gameplay
 
 - [x] **CORE-01**: Child sees one big, high-contrast letter or number centered on screen as the current target
-- [ ] **CORE-02**: Pressing the physical key matching the target (case/layout-insensitive) triggers a celebration and immediately selects a new target
-- [ ] **CORE-03**: Pressing any non-matching key produces no penalty — only a subtle, neutral flicker, never a punitive cue
-- [ ] **CORE-04**: Held keys / key-repeat events don't spam repeated celebrations or incorrect-attempt records
-- [ ] **CORE-05**: Celebration animations use a dark, pearlescent, muted palette (deep blues/purples/greens) — never a full-page flash or strobe
+- [x] **CORE-02**: Pressing the physical key matching the target (case/layout-insensitive) triggers a celebration and immediately selects a new target
+- [x] **CORE-03**: Pressing any non-matching key produces no penalty — only a subtle, neutral flicker, never a punitive cue
+- [x] **CORE-04**: Held keys / key-repeat events don't spam repeated celebrations or incorrect-attempt records
+- [x] **CORE-05**: Celebration animations use a dark, pearlescent, muted palette (deep blues/purples/greens) — never a full-page flash or strobe
 
 ### Audio
 
@@ -92,10 +92,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | CORE-01 | Phase 1 | Complete |
-| CORE-02 | Phase 1 | Pending |
-| CORE-03 | Phase 1 | Pending |
-| CORE-04 | Phase 1 | Pending |
-| CORE-05 | Phase 1 | Pending |
+| CORE-02 | Phase 1 | Complete |
+| CORE-03 | Phase 1 | Complete |
+| CORE-04 | Phase 1 | Complete |
+| CORE-05 | Phase 1 | Complete |
 | AUDIO-01 | Phase 3 | Pending |
 | AUDIO-02 | Phase 3 | Pending |
 | MODE-01 | Phase 2 | Pending |
