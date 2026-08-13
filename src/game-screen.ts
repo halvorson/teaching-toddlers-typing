@@ -5,7 +5,7 @@
  */
 
 import { DIGITS, LETTERS, acceptableCodes, nextInSequence, pickRandom, renderTarget } from './game'
-import { celebrate } from './celebrate'
+import { celebrate, celebrateAlphabetComplete } from './celebrate'
 
 /** The three playable modes. Declared here (not in game.ts) because the
  * game screen is the module that owns "what a mode is" from the player's
@@ -49,7 +49,8 @@ export function mountGameScreen(container: HTMLElement, mode: GameMode, onQuit: 
   target.id = 'target'
   container.appendChild(target)
 
-  currentTarget = selectNext(mode, currentTarget)
+  const openingTarget = selectNext(mode, currentTarget)
+  currentTarget = openingTarget
   renderTarget(target, currentTarget)
   mountedContainer = container
 
@@ -62,14 +63,23 @@ export function mountGameScreen(container: HTMLElement, mode: GameMode, onQuit: 
     }
 
     if (currentTarget !== null && acceptableCodes(currentTarget, mode).includes(event.code)) {
+      // The Z-completion test must run against the target being LEFT, before
+      // selectNext advances it — nextInSequence wraps unconditionally, so by
+      // the time selectNext has returned, currentTarget is already 'A' and
+      // testing afterwards would either never fire or fire on the wrong
+      // letter (MODE-04).
+      if (mode === 'alphabet' && currentTarget === LETTERS[LETTERS.length - 1]) {
+        celebrateAlphabetComplete()
+      } else {
+        void celebrate(target.getBoundingClientRect())
+      }
+
       currentTarget = selectNext(mode, currentTarget)
       renderTarget(target, currentTarget)
 
       target.classList.remove('correct-pulse')
       void target.offsetWidth
       target.classList.add('correct-pulse')
-
-      void celebrate(target.getBoundingClientRect())
     } else {
       container.classList.remove('incorrect-flash')
       void container.offsetWidth
