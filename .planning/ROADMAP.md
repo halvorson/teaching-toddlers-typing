@@ -13,7 +13,7 @@ Keyboard Quest ships as four vertical slices, each one a playable step toward th
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Playable Core Loop & Live Deploy** - A single game mode is playable end-to-end, live on GitHub Pages
+- [x] **Phase 1: Playable Core Loop & Live Deploy** - A single game mode is playable end-to-end, live on GitHub Pages (completed 2026-08-13)
 - [ ] **Phase 2: Menu, Game Modes & Fullscreen** - Full menu, all three modes, fullscreen play, and share link
 - [ ] **Phase 3: Sound & Audio Settings** - Correct matches chime and speak, with a sound toggle
 - [ ] **Phase 4: Session Statistics** - Parents can review and reset accuracy, speed, and reaction-time stats
@@ -99,7 +99,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Playable Core Loop & Live Deploy | 2/2 | In Progress|  |
+| 1. Playable Core Loop & Live Deploy | 2/2 | Complete    | 2026-08-13 |
 | 2. Menu, Game Modes & Fullscreen | 0/TBD | Not started | - |
 | 3. Sound & Audio Settings | 0/TBD | Not started | - |
 | 4. Session Statistics | 0/TBD | Not started | - |
