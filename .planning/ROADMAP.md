@@ -30,7 +30,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Pressing the physical key matching the target (regardless of Shift/Caps Lock/keyboard layout) triggers a muted, dark-pearlescent celebration and immediately selects a new target
   4. Pressing a non-matching key produces only a brief neutral flicker — never a punitive cue — and held/repeated keys never spam extra celebrations or attempt records
   5. Every push to main automatically rebuilds and redeploys the live site
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Walking skeleton: scaffold Vite + TypeScript, render one big letter, publish live on GitHub Pages (DEPLOY-01, DEPLOY-02, CORE-01)
+- [ ] 01-02-PLAN.md — Core letter-matching loop: random target, physical-key match, muted celebration, non-punitive flicker, repeat guard, redeploy (CORE-01..05, DEPLOY-01)
+
 **UI hint**: yes
 
 ### Phase 2: Menu, Game Modes & Fullscreen
@@ -80,7 +85,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Playable Core Loop & Live Deploy | 0/TBD | Not started | - |
+| 1. Playable Core Loop & Live Deploy | 0/2 | Planned | - |
 | 2. Menu, Game Modes & Fullscreen | 0/TBD | Not started | - |
 | 3. Sound & Audio Settings | 0/TBD | Not started | - |
 | 4. Session Statistics | 0/TBD | Not started | - |

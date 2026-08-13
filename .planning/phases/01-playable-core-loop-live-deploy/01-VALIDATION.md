@@ -1,9 +1,9 @@
 ---
 phase: 1
 slug: playable-core-loop-live-deploy
-status: draft
-nyquist_compliant: false
-wave_0_complete: false
+status: approved
+nyquist_compliant: true
+wave_0_complete: true
 created: 2026-08-13
 ---
 
@@ -38,15 +38,18 @@ created: 2026-08-13
 
 | Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|------------|-----------------|-----------|-------------------|-------------|--------|
-| 01-*-* | TBD | TBD | DEPLOY-01 | — | Actions workflow scoped to `contents: read, pages: write, id-token: write` only | manual | none — verify via Actions tab green check + visiting live URL | N/A | ⬜ pending |
-| 01-*-* | TBD | TBD | DEPLOY-02 | — | n/a | manual | none — sequencing itself (deploy skeleton before full game logic) is the validation | N/A | ⬜ pending |
-| 01-*-* | TBD | TBD | CORE-01 | — | n/a | manual | none — visual check on load | N/A | ⬜ pending |
-| 01-*-* | TBD | TBD | CORE-02 | — | `textContent` only, never `innerHTML`, when rendering the target letter | manual | none — physical keypress on the actual deployed/dev page | N/A | ⬜ pending |
-| 01-*-* | TBD | TBD | CORE-03 | — | n/a | manual | none — physical keypress | N/A | ⬜ pending |
-| 01-*-* | TBD | TBD | CORE-04 | — | n/a | manual | none — hold a key down, observe no repeated celebration | N/A | ⬜ pending |
-| 01-*-* | TBD | TBD | CORE-05 | — | n/a | manual | none — visual check during correct and incorrect presses | N/A | ⬜ pending |
+| 01-01-T1 | 01-01 | 1 | DEPLOY-02, CORE-01 | T-01-SC, T-01-04 | Exact-pinned audited installs only; letter rendered via text-content, never HTML-string assignment | shell gate + manual | `npm run build` exits 0; `grep -q '/teaching-toddlers-typing/assets/' dist/index.html`; typescript pin and `esModuleInterop` asserted via `node -e`; negative grep for HTML-string rendering under `src/` | ✓ (built artifacts + source) | ⬜ pending |
+| 01-01-T2 | 01-01 | 1 | DEPLOY-01, DEPLOY-02 | T-01-01, T-01-02, T-01-03, T-01-05 | Workflow `permissions` limited to `contents: read, pages: write, id-token: write`; only first-party `actions/*` steps; credential-pattern scan across tracked files before the public push | shell gate + manual | `gh run list … conclusion == success`; `curl -fsS` live URL contains base-prefixed assets; every `dist/assets/*` fetched at 200; workflow permission/action/concurrency greps; `git ls-files \| xargs grep` secret-pattern scan | ✓ (workflow + live site) | ⬜ pending |
+| 01-02-T1 | 01-02 | 2 | CORE-01, CORE-02, CORE-05 | T-02-01, T-02-03 | `textContent` only; confetti bundled locally via code-split dynamic import, no third-party origin | shell gate + manual | `npm run build`; `grep -Eq '\.code\b' src/main.ts`; negative greps for the character property, HTML-string rendering, and document-body style mutation; `@keyframes correct-pulse` present; ≥2 emitted JS chunks | ✓ (source + build output) | ⬜ pending |
+| 01-02-T2 | 01-02 | 2 | CORE-03, CORE-04, CORE-05 | T-02-02 | Repeat-flag early return bounds celebration dispatch; no destructive token on the incorrect path; no `html`/body animation rule | shell gate + manual | `npm run build`; source-ordering assertion that the repeat guard precedes the physical-key comparison; `@keyframes incorrect-flash` and the locked `color-mix` expression present; negative greps for the destructive token and body-style mutation | ✓ (source) | ⬜ pending |
+| 01-02-T3 | 01-02 | 2 | DEPLOY-01 | T-02-03, T-02-04 | Live page fetches only from its own origin; README stays generically branded | shell gate + manual | two `deploy.yml` runs concluded `success` (one documentation-only); every `dist/assets/*` returns 200 under the live base path; `HEAD == origin/main`; clean `git status` | ✓ (live site) | ⬜ pending |
 
-*Task IDs/plan/wave columns are filled in by the planner once PLAN.md task numbers exist.*
+*Task IDs are `{phase}-{plan}-T{n}` and map to the ordered `<task>` elements in each PLAN.md.*
+
+**Note on "automated" here:** no test *framework* is introduced (locked by `.claude/CLAUDE.md`). Every
+gate above is a real, runnable shell assertion — build exit codes, source greps, `gh`/`curl` checks —
+so each task carries a genuine `<automated>` block alongside its `<human-check>` walkthrough. This
+satisfies Nyquist sampling without violating the no-test-framework constraint.
 
 ---
 
@@ -72,11 +75,11 @@ created: 2026-08-13
 
 ## Validation Sign-Off
 
-- [ ] All tasks have `<automated>` verify or Wave 0 dependencies — N/A, manual-only phase per locked CLAUDE.md constraint
-- [ ] Sampling continuity: no 3 consecutive tasks without automated verify — N/A, manual-only phase
-- [ ] Wave 0 covers all MISSING references — N/A, no test infra introduced
-- [ ] No watch-mode flags
-- [ ] Feedback latency < 180s
-- [ ] `nyquist_compliant: true` set in frontmatter — deferred to plan-phase step 5.5 completion
+- [x] All tasks have `<automated>` verify or Wave 0 dependencies — all 5 tasks carry runnable shell-assertion gates (no test framework introduced)
+- [x] Sampling continuity: no 3 consecutive tasks without automated verify — every task has one
+- [x] Wave 0 covers all MISSING references — N/A, no test infra introduced and no `MISSING` markers emitted
+- [x] No watch-mode flags
+- [x] Feedback latency < 180s — local gates are seconds; the two live-URL gates wait on a GitHub Actions run (~1-2 min)
+- [x] `nyquist_compliant: true` set in frontmatter
 
-**Approval:** pending
+**Approval:** approved — filled in by gsd-planner during phase-1 plan creation
