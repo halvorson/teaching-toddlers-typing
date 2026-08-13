@@ -1,44 +1,44 @@
 ---
 gsd_state_version: 1.0
-current_phase: 01
-current_phase_name: Playable Core Loop & Live Deploy
-status: verifying
+current_phase: 2
+current_phase_name: Menu, Game Modes & Fullscreen
+status: planning
 stopped_at: Completed 01-02-PLAN.md
-last_updated: "2026-08-13T06:37:30.198Z"
-last_activity: 2026-08-12
-last_activity_desc: Roadmap created, 4 phases derived from 27 v1 requirements
-state_head: d02fdf7f6ccdc8a4dcaaf48f4e9f666211cc13c6
+last_updated: "2026-08-13T14:08:01.173Z"
+last_activity: 2026-08-13
+last_activity_desc: Phase 01 complete, transitioned to Phase 2
+state_head: 7a8f084628a759ad795a233957114a8da233e91b
 progress:
   total_phases: 4
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 2
   completed_plans: 2
-  percent: 0
+  percent: 25
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-08-12)
+See: .planning/PROJECT.md (updated 2026-08-13)
 
 **Core value:** Every correct physical key press produces an immediate, delightful, low-stakes celebration — that instant feedback loop is what teaches the letter/key association and keeps a toddler engaged.
-**Current focus:** Phase 01 — Playable Core Loop & Live Deploy
+**Current focus:** Phase 2 — Menu, Game Modes & Fullscreen
 
 ## Current Position
 
-Phase: 01 (Playable Core Loop & Live Deploy) — EXECUTING
-Plan: 2 of 2
-Status: Phase complete — ready for verification
-Last activity: 2026-08-12 — Phase 01 execution started
+Phase: 2 — Menu, Game Modes & Fullscreen
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-08-13 — Phase 01 complete, transitioned to Phase 2
 
-Progress: [██████████] 100%
+Progress: [██▌░░░░░░░] 25% (1/4 phases complete)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 0
+- Total plans completed: 2
 - Average duration: - min
 - Total execution time: 0 hours
 
@@ -46,7 +46,7 @@ Progress: [██████████] 100%
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 01 | 2 | - | - |
 
 **Recent Trend:**
 
@@ -78,6 +78,7 @@ Recent decisions affecting current work:
 - [Phase 01]: Added .gsd/ to .gitignore alongside .planning/HANDOFF.json — both are transient harness/session state excluded from the now-public repo history
 - [Phase 01-02]: renderTarget re-triggers the opacity crossfade via opacity-dip-to-0/textContent-swap/reflow/opacity-restore, reusing Plan 01's existing transition rule
 - [Phase 01-02]: correct-pulse and incorrect-flash animations both restart via remove-class/force-reflow/re-add-class, since re-adding an already-present class does not replay a CSS animation
+- [Phase 01]: Post-verification, discovered the child's real name in 11 tracked planning/doc files in the now-public repo. Redacted to a generic placeholder and scrubbed from all git history via `git filter-repo --replace-text` + force-push. Going forward: never put the child's real name in any tracked file (see PROJECT.md Context note).
 
 ### Pending Todos
 
@@ -86,7 +87,6 @@ None yet.
 ### Blockers/Concerns
 
 - Phase 2 (fullscreen handling): iOS Safari fullscreen support varies by OS version — validate directly against the family's actual hardware rather than assuming from docs (research flag).
-- Phase 1/2: Vite `base` path is the most common GitHub Pages deploy failure — verify against the live URL, not just `vite preview`.
 
 ## Deferred Items
 
@@ -98,6 +98,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-08-13T06:37:30.191Z
-Stopped at: Completed 01-02-PLAN.md
+Last session: 2026-08-13T14:15:00Z
+Stopped at: Phase 1 complete (human-validated) and live at https://halvorson.github.io/teaching-toddlers-typing/, ready to plan Phase 2
 Resume file: None
