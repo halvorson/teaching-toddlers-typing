@@ -10,18 +10,22 @@
 export const CONFETTI_COLORS = ['#8B7FFF', '#4FD1C5', '#6E7FFF', '#B48CE0', '#3FAE8A']
 
 export async function celebrate(anchor: DOMRect): Promise<void> {
-  const { default: confetti } = await import('canvas-confetti')
-  confetti({
-    particleCount: 40,
-    spread: 60,
-    startVelocity: 25,
-    ticks: 150,
-    gravity: 1,
-    scalar: 0.8,
-    colors: CONFETTI_COLORS,
-    origin: {
-      x: (anchor.left + anchor.width / 2) / window.innerWidth,
-      y: (anchor.top + anchor.height / 2) / window.innerHeight,
-    },
-  })
+  try {
+    const { default: confetti } = await import('canvas-confetti')
+    confetti({
+      particleCount: 40,
+      spread: 60,
+      startVelocity: 25,
+      ticks: 150,
+      gravity: 1,
+      scalar: 0.8,
+      colors: CONFETTI_COLORS,
+      origin: {
+        x: (anchor.left + anchor.width / 2) / window.innerWidth,
+        y: (anchor.top + anchor.height / 2) / window.innerHeight,
+      },
+    })
+  } catch {
+    // Confetti is decorative — swallow load failures so the core game keeps working.
+  }
 }
