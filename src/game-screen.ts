@@ -4,7 +4,7 @@
  * feedback, and hands control back to the caller on Escape.
  */
 
-import { LETTERS, acceptableCodes, pickRandom, renderTarget } from './game'
+import { DIGITS, LETTERS, acceptableCodes, pickRandom, renderTarget } from './game'
 import { celebrate } from './celebrate'
 
 /** The three playable modes. Declared here (not in game.ts) because the
@@ -15,6 +15,14 @@ export type GameMode = 'letters' | 'numbers' | 'alphabet'
 let keydownListener: ((event: KeyboardEvent) => void) | null = null
 let mountedContainer: HTMLElement | null = null
 let currentTarget: string | null = null
+
+/** Returns the character pool for `mode`: digits for Numbers, letters for
+ * every other mode. Used for both the initial target and every subsequent
+ * pick, so the no-immediate-repeat guarantee holds identically for every
+ * pool through the same code (MODE-01, MODE-02). */
+function poolFor(mode: GameMode): readonly string[] {
+  return mode === 'numbers' ? DIGITS : LETTERS
+}
 
 /**
  * Mounts the gameplay screen into `container`: clears it, creates the
@@ -28,7 +36,7 @@ export function mountGameScreen(container: HTMLElement, mode: GameMode, onQuit: 
   target.id = 'target'
   container.appendChild(target)
 
-  currentTarget = pickRandom(LETTERS)
+  currentTarget = pickRandom(poolFor(mode))
   renderTarget(target, currentTarget)
   mountedContainer = container
 
@@ -41,7 +49,7 @@ export function mountGameScreen(container: HTMLElement, mode: GameMode, onQuit: 
     }
 
     if (currentTarget !== null && acceptableCodes(currentTarget, mode).includes(event.code)) {
-      currentTarget = pickRandom(LETTERS, currentTarget)
+      currentTarget = pickRandom(poolFor(mode), currentTarget)
       renderTarget(target, currentTarget)
 
       target.classList.remove('correct-pulse')

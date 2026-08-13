@@ -13,6 +13,9 @@ export const LETTERS: readonly string[] = Object.freeze([
   'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
 ])
 
+/** Single-digit pool 0-9 for Numbers mode. */
+export const DIGITS = Object.freeze(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
+
 /**
  * Selects a random member of `pool`. When `exclude` is supplied, the excluded
  * member is filtered out of the candidate pool before indexing, so it is
@@ -26,18 +29,36 @@ export function pickRandom(pool: readonly string[], exclude?: string): string {
 
 /** Maps an uppercase A-Z letter to its physical-key `KeyboardEvent.code`
  * identifier. Returns an array (a single element) so it shares a signature
- * with the digit code-mapping function Task 2 adds. */
+ * with `digitCode`. */
 export function letterCode(letter: string): readonly string[] {
   return [`Key${letter}`]
 }
 
 /**
- * The single function every mode's match check goes through. For this task
- * every mode matches against the alphabetic-row code; Task 2 adds the
- * digit-mode branch (and starts using `mode`).
+ * Maps a digit to the physical-key codes that should count as a match: the
+ * numeric row's `Digit${n}` identifier and the numeric keypad's `Numpad${n}`
+ * identifier. The alphabetic row's `Key` prefix must never be applied to a
+ * digit — that combination is a string no real keyboard emits (verified
+ * against MDN's Keyboard_event_code_values, see 02-RESEARCH.md Pitfall 2).
+ * Accepting the keypad alongside the numeric row is a deliberate forgiving
+ * choice (02-RESEARCH.md Assumptions Log A1) — an unexpected keypad press
+ * from a hunting toddler is harmless to accept.
  */
-export function acceptableCodes(target: string, _mode: GameMode): readonly string[] {
-  return letterCode(target)
+export function digitCode(digit: string): readonly string[] {
+  return [`Digit${digit}`, `Numpad${digit}`]
+}
+
+/**
+ * The single function every mode's match check goes through. Numbers mode
+ * matches against the digit-row/keypad codes; every other mode matches
+ * against the alphabetic-row code.
+ */
+export function acceptableCodes(target: string, mode: GameMode): readonly string[] {
+  if (mode === 'numbers') {
+    return digitCode(target)
+  } else {
+    return letterCode(target)
+  }
 }
 
 /**
