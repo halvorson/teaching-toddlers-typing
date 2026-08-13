@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# GSD transient session/dispatch state (not project history)
+.planning/HANDOFF.json
+.gsd/
