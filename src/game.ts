@@ -27,6 +27,23 @@ export function pickRandom(pool: readonly string[], exclude?: string): string {
   return candidates[index]
 }
 
+/**
+ * Sequential wraparound selection — used by Alphabet mode. Passing
+ * `current: null` (the mode's opening target) returns the pool's first
+ * member, which is how Alphabet mode always opens on A. Every other call
+ * locates the current member by index and returns the member one position
+ * later, wrapping the last position back to the first with a modulo. The
+ * wraparound is unconditional — after the last member it returns the first
+ * with no special casing — so a caller that needs to detect "the sequence
+ * just completed" must test the *current* target before calling this, not
+ * the value this function returns.
+ */
+export function nextInSequence(pool: readonly string[], current: string | null): string {
+  if (current === null) return pool[0]
+  const index = pool.indexOf(current)
+  return pool[(index + 1) % pool.length]
+}
+
 /** Maps an uppercase A-Z letter to its physical-key `KeyboardEvent.code`
  * identifier. Returns an array (a single element) so it shares a signature
  * with `digitCode`. */

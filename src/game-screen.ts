@@ -4,8 +4,8 @@
  * feedback, and hands control back to the caller on Escape.
  */
 
-import { DIGITS, LETTERS, acceptableCodes, pickRandom, renderTarget } from './game'
-import { celebrate } from './celebrate'
+import { DIGITS, LETTERS, acceptableCodes, nextInSequence, pickRandom, renderTarget } from './game'
+import { celebrate, celebrateAlphabetComplete } from './celebrate'
 
 /** The three playable modes. Declared here (not in game.ts) because the
  * game screen is the module that owns "what a mode is" from the player's
@@ -24,6 +24,19 @@ function poolFor(mode: GameMode): readonly string[] {
   return mode === 'numbers' ? DIGITS : LETTERS
 }
 
+/** Selects the next target for `mode` given the current target (`current` is
+ * `null` on the mode's opening target). Alphabet mode always advances
+ * sequentially through the same helper that produces its opening target, so
+ * there is no separate first-render branch (MODE-03); every other mode
+ * selects randomly with no immediate repeat, unchanged from Phase 1. This is
+ * the single selection call site every mount and every advance goes through. */
+function selectNext(mode: GameMode, current: string | null): string {
+  if (mode === 'alphabet') {
+    return nextInSequence(LETTERS, current)
+  }
+  return pickRandom(poolFor(mode), current ?? undefined)
+}
+
 /**
  * Mounts the gameplay screen into `container`: clears it, creates the
  * `#target` span, picks and renders the first target, and registers the
@@ -36,7 +49,8 @@ export function mountGameScreen(container: HTMLElement, mode: GameMode, onQuit: 
   target.id = 'target'
   container.appendChild(target)
 
-  currentTarget = pickRandom(poolFor(mode))
+  const openingTarget = selectNext(mode, currentTarget)
+  currentTarget = openingTarget
   renderTarget(target, currentTarget)
   mountedContainer = container
 
@@ -49,14 +63,23 @@ export function mountGameScreen(container: HTMLElement, mode: GameMode, onQuit: 
     }
 
     if (currentTarget !== null && acceptableCodes(currentTarget, mode).includes(event.code)) {
-      currentTarget = pickRandom(poolFor(mode), currentTarget)
+      // The Z-completion test must run against the target being LEFT, before
+      // selectNext advances it — nextInSequence wraps unconditionally, so by
+      // the time selectNext has returned, currentTarget is already 'A' and
+      // testing afterwards would either never fire or fire on the wrong
+      // letter (MODE-04).
+      if (mode === 'alphabet' && currentTarget === LETTERS[LETTERS.length - 1]) {
+        celebrateAlphabetComplete()
+      } else {
+        void celebrate(target.getBoundingClientRect())
+      }
+
+      currentTarget = selectNext(mode, currentTarget)
       renderTarget(target, currentTarget)
 
       target.classList.remove('correct-pulse')
       void target.offsetWidth
       target.classList.add('correct-pulse')
-
-      void celebrate(target.getBoundingClientRect())
     } else {
       container.classList.remove('incorrect-flash')
       void container.offsetWidth
