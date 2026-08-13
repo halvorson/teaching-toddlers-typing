@@ -58,7 +58,14 @@ Plans:
   4. Starting any mode auto-enters fullscreen; Quit or an unexpected exit (Escape, OS gesture) reliably exits fullscreen, resyncs the UI, and returns to the home menu
   5. Home menu has a share affordance that copies the current page URL
 
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Router, fullscreen wrappers, menu shell, and the Letters + Numbers modes end-to-end
+- [ ] 02-02-PLAN.md — Menu keyboard navigation, accent selection indicator, and the drifting parallax background
+- [ ] 02-03-PLAN.md — Alphabet mode's strict A→Z sequence and the bigger Z-completion celebration
+- [ ] 02-04-PLAN.md — Share row: export glyph, three-tier clipboard copy chain, and the Copied! feedback
+
 **UI hint**: yes
 
 ### Phase 2.1: Progression Trail & Celebration Polish (INSERTED)
