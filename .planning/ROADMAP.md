@@ -58,21 +58,21 @@ Plans:
   4. Starting any mode auto-enters fullscreen; Quit or an unexpected exit (Escape, OS gesture) reliably exits fullscreen, resyncs the UI, and returns to the home menu
   5. Home menu has a share affordance that copies the current page URL
 
-**Plans**: 4 plans
+**Plans**: 4/4 plans executed
 
 Plans:
 **Wave 1**
 
-- [ ] 02-01-PLAN.md — Router, fullscreen wrappers, menu shell, and the Letters + Numbers modes end-to-end
+- [x] 02-01-PLAN.md — Router, fullscreen wrappers, menu shell, and the Letters + Numbers modes end-to-end
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 02-02-PLAN.md — Menu keyboard navigation, accent selection indicator, and the drifting parallax background
-- [ ] 02-03-PLAN.md — Alphabet mode's strict A→Z sequence and the bigger Z-completion celebration
+- [x] 02-02-PLAN.md — Menu keyboard navigation, accent selection indicator, and the drifting parallax background
+- [x] 02-03-PLAN.md — Alphabet mode's strict A→Z sequence and the bigger Z-completion celebration
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 02-04-PLAN.md — Share row: export glyph, three-tier clipboard copy chain, and the Copied! feedback
+- [x] 02-04-PLAN.md — Share row: export glyph, three-tier clipboard copy chain, and the Copied! feedback
 
 **UI hint**: yes
 
@@ -136,7 +136,7 @@ Phases execute in numeric order: 1 → 2 → 2.1 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Playable Core Loop & Live Deploy | 2/2 | Complete    | 2026-08-13 |
-| 2. Menu, Game Modes & Fullscreen | 0/TBD | Not started | - |
+| 2. Menu, Game Modes & Fullscreen | 4/4 | In Progress|  |
 | 2.1. Progression Trail & Celebration Polish (INSERTED) | 0/TBD | Not started | - |
 | 3. Sound & Audio Settings | 0/TBD | Not started | - |
 | 4. Session Statistics | 0/TBD | Not started | - |
