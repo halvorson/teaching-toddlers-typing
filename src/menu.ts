@@ -10,18 +10,11 @@
  */
 
 import type { GameMode } from './game-screen'
+import { shareCurrentUrl } from './clipboard'
 
 export type MenuRow = 'letters' | 'numbers' | 'alphabet' | 'stats' | 'settings' | 'share' | 'quit'
 
-export const MENU_ROWS: readonly MenuRow[] = Object.freeze([
-  'letters',
-  'numbers',
-  'alphabet',
-  'stats',
-  'settings',
-  'share',
-  'quit',
-])
+export const MENU_ROWS: readonly MenuRow[] = Object.freeze(['letters', 'numbers', 'alphabet', 'stats', 'settings', 'share', 'quit'])
 
 export const MENU_LABELS: Readonly<Record<MenuRow, string>> = Object.freeze({
   letters: 'Letters',
@@ -34,6 +27,10 @@ export const MENU_LABELS: Readonly<Record<MenuRow, string>> = Object.freeze({
 })
 
 const GAMEPLAY_ROWS: readonly MenuRow[] = Object.freeze(['letters', 'numbers', 'alphabet'])
+const UTILITY_ROWS: readonly MenuRow[] = Object.freeze(['stats', 'settings', 'share'])
+
+const SVG_NS = 'http://www.w3.org/2000/svg'
+const COPIED_FEEDBACK_MS = 1500
 
 export interface MenuHandlers {
   onLaunchMode(mode: GameMode): void
@@ -46,6 +43,9 @@ let hoverListener: ((event: MouseEvent) => void) | null = null
 let mountedNav: HTMLElement | null = null
 let menuButtons: HTMLButtonElement[] = []
 let focusIndex = 0
+let shareLabelEl: HTMLSpanElement | null = null
+let shareButtonEl: HTMLButtonElement | null = null
+let copiedTimeoutId: number | null = null
 
 function isGameplayRow(row: MenuRow): row is GameMode {
   return (GAMEPLAY_ROWS as readonly string[]).includes(row)
@@ -64,6 +64,54 @@ function focusRow(index: number): void {
   focusIndex = (index + menuButtons.length) % menuButtons.length
   menuButtons.forEach((button, i) => button.classList.toggle('focused', i === focusIndex))
   menuButtons[focusIndex].focus()
+}
+
+/**
+ * Synchronous teardown run before every Share activation: cancels a
+ * pending "Copied!" revert timer and restores the row's resting label.
+ * Everything here is synchronous so it cannot itself consume the click's
+ * user activation — the copy chain in runShare() needs every bit of it.
+ */
+function resetShareFeedback(): void {
+  if (copiedTimeoutId !== null) {
+    clearTimeout(copiedTimeoutId)
+    copiedTimeoutId = null
+  }
+  if (shareLabelEl) {
+    shareLabelEl.textContent = MENU_LABELS.share
+  }
+}
+
+/**
+ * Swaps the Share row's label to "Copied!" and schedules the revert back to
+ * the resting label, read from `MENU_LABELS` rather than repeated as a
+ * second literal.
+ */
+function showCopiedFeedback(): void {
+  if (!shareLabelEl || !shareButtonEl) return
+  shareLabelEl.textContent = 'Copied!'
+  copiedTimeoutId = window.setTimeout(() => {
+    if (shareLabelEl) {
+      shareLabelEl.textContent = MENU_LABELS.share
+    }
+    copiedTimeoutId = null
+  }, COPIED_FEEDBACK_MS)
+}
+
+/**
+ * Runs the copy chain and renders the result. The call to the chain below
+ * is the first asynchronous step in this function, for the same Safari
+ * activation-window reason documented in clipboard.ts — resetShareFeedback()
+ * runs synchronously ahead of this dispatcher so it cannot introduce a
+ * microtask boundary before this line.
+ */
+async function runShare(): Promise<void> {
+  const result = await shareCurrentUrl()
+  if (result !== 'manual-required') {
+    showCopiedFeedback()
+    return
+  }
+  // Task 2 appends the manual-copy fallback panel here.
 }
 
 /**
@@ -96,13 +144,47 @@ export function mountMenu(container: HTMLElement, handlers: MenuHandlers): void 
     button.textContent = MENU_LABELS[row]
     menuButtons.push(button)
 
-    if (row === 'stats' || row === 'settings' || row === 'share') {
+    if ((UTILITY_ROWS as readonly string[]).includes(row)) {
       groupUtility.appendChild(button)
     } else if (row === 'quit') {
       groupQuit.appendChild(button)
     } else {
       groupPrimary.appendChild(button)
     }
+  }
+
+  // Decorate the Share row after the loop above (not inside it) so the
+  // seven-button creation loop stays untouched: swap its plain text for an
+  // outlined "export" glyph plus a labelled span, built through the
+  // namespaced element-creation API rather than by assigning markup.
+  const shareButton = menuButtons.find((button) => button.dataset.row === 'share')
+  if (shareButton) {
+    shareButton.textContent = ''
+
+    const icon = document.createElementNS(SVG_NS, 'svg')
+    icon.setAttribute('viewBox', '0 0 24 24')
+    icon.setAttribute('class', 'share-icon')
+    icon.setAttribute('aria-hidden', 'true')
+    icon.setAttribute('focusable', 'false')
+    icon.setAttribute('stroke-linecap', 'round')
+    icon.setAttribute('stroke-linejoin', 'round')
+
+    const tray = document.createElementNS(SVG_NS, 'path')
+    tray.setAttribute('d', 'M4 13v5a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-5')
+    const arrow = document.createElementNS(SVG_NS, 'path')
+    arrow.setAttribute('d', 'M12 16V4M8 8l4-4 4 4')
+    icon.appendChild(tray)
+    icon.appendChild(arrow)
+
+    const label = document.createElement('span')
+    label.className = 'menu-label'
+    label.textContent = MENU_LABELS.share
+
+    shareButton.appendChild(icon)
+    shareButton.appendChild(label)
+
+    shareLabelEl = label
+    shareButtonEl = shareButton
   }
 
   nav.appendChild(groupPrimary)
@@ -120,9 +202,12 @@ export function mountMenu(container: HTMLElement, handlers: MenuHandlers): void 
       handlers.onLaunchMode(row)
     } else if (row === 'quit') {
       handlers.onQuit()
+    } else if (row === 'share') {
+      resetShareFeedback()
+      void runShare()
     }
-    // stats, settings and share are left undispatched in this plan — 02-04
-    // adds their handlers when it delivers those screens.
+    // stats and settings stay undispatched — their real content belongs to
+    // the phases that own those screens.
   }
 
   const handleKeydown = (event: KeyboardEvent): void => {
@@ -189,4 +274,11 @@ export function unmountMenu(): void {
   mountedNav = null
   menuButtons = []
   focusIndex = 0
+
+  if (copiedTimeoutId !== null) {
+    clearTimeout(copiedTimeoutId)
+    copiedTimeoutId = null
+  }
+  shareLabelEl = null
+  shareButtonEl = null
 }

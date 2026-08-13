@@ -142,6 +142,17 @@ body[data-chrome="game"]::after {
   box-shadow: 0 0 8px var(--color-accent);
 }
 
+.share-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
 #app.incorrect-flash {
   animation: incorrect-flash 150ms ease-out;
 }
