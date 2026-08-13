@@ -22,9 +22,7 @@ document.addEventListener('keydown', (event: KeyboardEvent) => {
     void target.offsetWidth
     target.classList.add('correct-pulse')
 
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      void celebrate(target.getBoundingClientRect())
-    }
+    void celebrate(target.getBoundingClientRect())
   } else {
     app.classList.remove('incorrect-flash')
     void app.offsetWidth

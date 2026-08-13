@@ -10,6 +10,12 @@
 export const CONFETTI_COLORS = ['#8B7FFF', '#4FD1C5', '#6E7FFF', '#B48CE0', '#3FAE8A']
 
 export async function celebrate(anchor: DOMRect): Promise<void> {
+  // Respect the OS-level reduced-motion preference for every caller — this is
+  // the module's only exported entry point, so enforcing the guard here (not
+  // at each call site) keeps it from being forgotten by future callers (e.g.
+  // a planned Phase 2 Alphabet-mode Z-completion burst).
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
   try {
     const { default: confetti } = await import('canvas-confetti')
     confetti({
