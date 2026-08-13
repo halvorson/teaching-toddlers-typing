@@ -61,9 +61,17 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
+**Wave 1**
+
 - [ ] 02-01-PLAN.md — Router, fullscreen wrappers, menu shell, and the Letters + Numbers modes end-to-end
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 02-02-PLAN.md — Menu keyboard navigation, accent selection indicator, and the drifting parallax background
 - [ ] 02-03-PLAN.md — Alphabet mode's strict A→Z sequence and the bigger Z-completion celebration
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
 - [ ] 02-04-PLAN.md — Share row: export glyph, three-tier clipboard copy chain, and the Copied! feedback
 
 **UI hint**: yes
