@@ -6,14 +6,59 @@
   --color-destructive: #C4607A; /* reserved for palette continuity, unused in Phase 1 */
 }
 
+body {
+  background: var(--color-bg);
+}
+
 #app {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: var(--color-bg);
+  background: transparent;
   padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))
     max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+}
+
+/* Home menu */
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  width: 100%;
+  row-gap: 24px;
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+.menu-group {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+}
+
+.menu-group--utility {
+  margin-top: 24px;
+}
+
+.menu-group--quit {
+  margin-top: 32px;
+}
+
+.menu-item {
+  min-height: 56px;
+  font: inherit;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+  font-size: clamp(20px, 4vh, 28px);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-fg);
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 0;
+  cursor: pointer;
 }
 
 #app.incorrect-flash {
