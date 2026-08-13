@@ -2,9 +2,11 @@
  * Home menu: renders the seven-row list (Letters, Numbers, Alphabet,
  * Statistics, Settings, Share, Quit) as real `<button>` elements — grouping
  * gameplay rows, utility rows and Quit into their own gap-carrying groups —
- * and dispatches row activation to the caller's handlers. Arrow-key
- * navigation and the focus indicator arrive in plan 02-02; this module only
- * needs the rows to render and the three gameplay rows to activate.
+ * and dispatches row activation to the caller's handlers. Adds roving-focus
+ * keyboard navigation (Arrow/Home/End, wraparound) and a unified
+ * hover-or-focus selection indicator, both driven through the single
+ * `focusRow` function so the keyboard state, the mouse state and the visual
+ * `focused` class can never disagree.
  */
 
 import type { GameMode } from './game-screen'
@@ -39,15 +41,35 @@ export interface MenuHandlers {
 }
 
 let clickListener: ((event: MouseEvent) => void) | null = null
+let keydownListener: ((event: KeyboardEvent) => void) | null = null
+let hoverListener: ((event: MouseEvent) => void) | null = null
 let mountedNav: HTMLElement | null = null
+let menuButtons: HTMLButtonElement[] = []
+let focusIndex = 0
 
 function isGameplayRow(row: MenuRow): row is GameMode {
   return (GAMEPLAY_ROWS as readonly string[]).includes(row)
 }
 
 /**
- * Clears `container`, renders the nav + grouped button rows, and registers a
- * single delegated click listener that dispatches row activation.
+ * The only place the `focused` class is toggled and the only place native
+ * focus is requested — every navigation path (keyboard, hover, mount-time
+ * auto-focus) funnels through here so the keyboard-selected row and the
+ * visually-highlighted row can never drift apart. Normalizes `index` with a
+ * modulo that tolerates a negative input by adding the row count first, so
+ * decrementing from row 0 wraps to the last row instead of landing on a
+ * negative index.
+ */
+function focusRow(index: number): void {
+  focusIndex = (index + menuButtons.length) % menuButtons.length
+  menuButtons.forEach((button, i) => button.classList.toggle('focused', i === focusIndex))
+  menuButtons[focusIndex].focus()
+}
+
+/**
+ * Clears `container`, renders the nav + grouped button rows, registers the
+ * delegated click/keydown/hover listeners, and auto-focuses the first row
+ * so keyboard navigation works immediately with no initial Tab press.
  */
 export function mountMenu(container: HTMLElement, handlers: MenuHandlers): void {
   container.replaceChildren()
@@ -64,12 +86,15 @@ export function mountMenu(container: HTMLElement, handlers: MenuHandlers): void 
   const groupQuit = document.createElement('div')
   groupQuit.className = 'menu-group menu-group--quit'
 
+  menuButtons = []
+
   for (const row of MENU_ROWS) {
     const button = document.createElement('button')
     button.type = 'button'
     button.className = 'menu-item'
     button.dataset.row = row
     button.textContent = MENU_LABELS[row]
+    menuButtons.push(button)
 
     if (row === 'stats' || row === 'settings' || row === 'share') {
       groupUtility.appendChild(button)
@@ -85,7 +110,7 @@ export function mountMenu(container: HTMLElement, handlers: MenuHandlers): void 
   nav.appendChild(groupQuit)
   container.appendChild(nav)
 
-  const handler = (event: MouseEvent): void => {
+  const handleClick = (event: MouseEvent): void => {
     const target = event.target as HTMLElement
     const button = target.closest<HTMLButtonElement>('button[data-row]')
     if (!button) return
@@ -100,19 +125,68 @@ export function mountMenu(container: HTMLElement, handlers: MenuHandlers): void 
     // adds their handlers when it delivers those screens.
   }
 
-  clickListener = handler
-  nav.addEventListener('click', handler)
+  const handleKeydown = (event: KeyboardEvent): void => {
+    if (event.repeat) return // a held arrow key must not spin the selection
+
+    // event.key is the correct choice for these action keys — the physical
+    // key-code property is reserved for gameplay character matching only.
+    switch (event.key) {
+      case 'ArrowDown':
+        event.preventDefault()
+        focusRow(focusIndex + 1)
+        break
+      case 'ArrowUp':
+        event.preventDefault()
+        focusRow(focusIndex - 1)
+        break
+      case 'Home':
+        event.preventDefault()
+        focusRow(0)
+        break
+      case 'End':
+        event.preventDefault()
+        focusRow(menuButtons.length - 1)
+        break
+      // The activation keys need no case at all — the focused row is
+      // already a native button, which already fires a click for both.
+    }
+  }
+
+  const handleHover = (event: MouseEvent): void => {
+    const target = event.target as HTMLElement
+    const button = target.closest<HTMLButtonElement>('button[data-row]')
+    if (!button) return
+    const index = menuButtons.indexOf(button)
+    if (index === -1) return
+    focusRow(index)
+  }
+
+  clickListener = handleClick
+  keydownListener = handleKeydown
+  hoverListener = handleHover
+  nav.addEventListener('click', handleClick)
+  nav.addEventListener('keydown', handleKeydown)
+  nav.addEventListener('mouseover', handleHover)
   mountedNav = nav
+
+  focusRow(0)
 }
 
-/** Removes the delegated click listener and empties the container. */
+/** Removes the delegated click/keydown/hover listeners and resets all
+ * module-level menu state. */
 export function unmountMenu(): void {
-  if (mountedNav && clickListener) {
-    mountedNav.removeEventListener('click', clickListener)
+  if (mountedNav) {
+    if (clickListener) mountedNav.removeEventListener('click', clickListener)
+    if (keydownListener) mountedNav.removeEventListener('keydown', keydownListener)
+    if (hoverListener) mountedNav.removeEventListener('mouseover', hoverListener)
   }
   clickListener = null
+  keydownListener = null
+  hoverListener = null
   if (mountedNav?.parentElement) {
     mountedNav.parentElement.replaceChildren()
   }
   mountedNav = null
+  menuButtons = []
+  focusIndex = 0
 }
