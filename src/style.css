@@ -25,3 +25,40 @@
   color: var(--color-fg);
   transition: opacity 100ms ease-out;
 }
+
+#target.correct-pulse {
+  animation: correct-pulse 450ms ease-out;
+}
+
+@keyframes correct-pulse {
+  0% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  40% {
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 24px var(--color-accent));
+  }
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 0 transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #target.correct-pulse {
+    animation-name: correct-pulse-reduced;
+  }
+
+  @keyframes correct-pulse-reduced {
+    0% {
+      filter: drop-shadow(0 0 0 transparent);
+    }
+    40% {
+      filter: drop-shadow(0 0 24px var(--color-accent));
+    }
+    100% {
+      filter: drop-shadow(0 0 0 transparent);
+    }
+  }
+}
