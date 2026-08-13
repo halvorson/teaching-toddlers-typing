@@ -1,10 +1,10 @@
 ---
 schema_version: 1
-open_count: 3
+open_count: 4
 waived_count: 0
 fixed_count: 0
-total_count: 3
-last_updated: 2026-08-13T20:30:15.986Z
+total_count: 4
+last_updated: 2026-08-13T20:37:11.025Z
 ---
 
 # Broken Windows Ledger
@@ -18,6 +18,7 @@ last_updated: 2026-08-13T20:30:15.986Z
 | 1 | 01 | stub | src/main.ts | 9 | Target letter hardcoded to fixed 'A' (tracer slice for DEPLOY-02); Plan 01-02 replaces with random-target selector, same render path | open |  | 2026-08-13T06:23:56.306Z |  |
 | 2 | 2 | unrun-verify | src/menu.ts |  | Task 1 human-check not run in this environment: manual browser QA needed for menu render, Letters fullscreen entry, correct/incorrect celebration on real keypress, Escape/external fullscreen exit resync, and ?screen=nonsense fallback | open |  | 2026-08-13T20:30:09.577Z |  |
 | 3 | 2 | unrun-verify | src/game-screen.ts |  | Task 2 human-check not run in this environment: manual keyboard QA needed to confirm every physical digit-row key 0-9 (and numeric keypad) registers a match, and non-repeat behavior holds over ~10 rounds | open |  | 2026-08-13T20:30:15.986Z |  |
+| 4 | 02 | unrun-verify | .planning/phases/02-menu-game-modes-fullscreen/02-02-PLAN.md |  | Human-check sections for Task 1 (keyboard nav/hover/focus indicator) and Task 2 (parallax background/reduced-motion/gameplay suppression) not run — no live browser in this environment | open |  | 2026-08-13T20:37:11.025Z |  |
 
 ````json
 [
@@ -55,6 +56,18 @@ last_updated: 2026-08-13T20:30:15.986Z
     "status": "open",
     "reason": "",
     "recorded_at": "2026-08-13T20:30:15.986Z",
+    "resolved_at": null
+  },
+  {
+    "id": 4,
+    "kind": "unrun-verify",
+    "phase": "02",
+    "file": ".planning/phases/02-menu-game-modes-fullscreen/02-02-PLAN.md",
+    "line": null,
+    "description": "Human-check sections for Task 1 (keyboard nav/hover/focus indicator) and Task 2 (parallax background/reduced-motion/gameplay suppression) not run — no live browser in this environment",
+    "status": "open",
+    "reason": "",
+    "recorded_at": "2026-08-13T20:37:11.025Z",
     "resolved_at": null
   }
 ]
