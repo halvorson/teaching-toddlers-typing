@@ -29,3 +29,11 @@ npm run preview  # preview the production build locally
 
 Every push to `main` rebuilds and redeploys automatically via GitHub Actions to GitHub
 Pages — there is no separate staging step.
+
+## Known limitations
+
+- **US-QWERTY keyboards only.** Key matching uses the physical key position
+  (`KeyboardEvent.code`), not the printed label, so on QWERTZ (German/Swiss/Austrian) or
+  AZERTY (French) layouts the physically-labeled key a child presses may not match the
+  on-screen letter (e.g. Y/Z are swapped on QWERTZ). This is a deliberate MVP scope cut —
+  layout-aware remapping is a candidate for a later phase.
