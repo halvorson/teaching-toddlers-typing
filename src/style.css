@@ -10,6 +10,58 @@ body {
   background: var(--color-bg);
 }
 
+/* Moody drifting menu background — two CSS-only parallax layers behind all
+   content. No image asset of any kind; both layers are radial gradients
+   tinted through color-mix against the existing palette tokens. */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 100ms ease-out;
+}
+
+body::before {
+  background:
+    radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--color-surface) 10%, transparent), transparent 60%),
+    radial-gradient(circle at 70% 70%, color-mix(in srgb, var(--color-surface) 10%, transparent), transparent 60%);
+  background-size: 150% 150%;
+  animation: drift-a 40s ease-in-out infinite alternate;
+}
+
+body::after {
+  background: radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--color-accent) 6%, transparent), transparent 55%);
+  animation: drift-b 65s ease-in-out infinite alternate;
+}
+
+@keyframes drift-a {
+  to {
+    transform: translate(4%, -3%);
+  }
+}
+
+@keyframes drift-b {
+  to {
+    transform: translate(-3%, 4%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after {
+    animation: none;
+  }
+}
+
+/* Gameplay screens are a plain dark field — the drifting layers are only
+   for the menu (and, per assumption 6, the windowed panels above it). */
+body[data-chrome="game"]::before,
+body[data-chrome="game"]::after {
+  opacity: 0;
+}
+
 #app {
   display: flex;
   align-items: center;
@@ -30,6 +82,16 @@ body {
   row-gap: 24px;
   max-height: 100vh;
   overflow-y: auto;
+  animation: screen-fade-in 100ms ease-out;
+}
+
+@keyframes screen-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .menu-group {
@@ -48,6 +110,7 @@ body {
 
 .menu-item {
   min-height: 56px;
+  align-self: flex-start;
   font: inherit;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
   font-size: clamp(20px, 4vh, 28px);
@@ -59,6 +122,24 @@ body {
   text-align: left;
   padding: 0;
   cursor: pointer;
+  transition: color 100ms ease-out;
+}
+
+.menu-item:focus-visible {
+  outline: none;
+}
+
+.menu-item.focused {
+  color: var(--color-accent);
+}
+
+.menu-item.focused::after {
+  content: '';
+  display: block;
+  height: 2px;
+  margin-top: 4px;
+  background: var(--color-accent);
+  box-shadow: 0 0 8px var(--color-accent);
 }
 
 #app.incorrect-flash {
