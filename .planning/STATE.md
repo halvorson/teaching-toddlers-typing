@@ -3,16 +3,16 @@ gsd_state_version: 1.0
 current_phase: 01
 current_phase_name: Playable Core Loop & Live Deploy
 status: executing
-stopped_at: Phase 1 UI-SPEC approved
-last_updated: "2026-08-13T06:11:11.147Z"
+stopped_at: Completed 01-01-PLAN.md
+last_updated: "2026-08-13T06:26:03.972Z"
 last_activity: 2026-08-12
 last_activity_desc: Roadmap created, 4 phases derived from 27 v1 requirements
-state_head: 30b8fd9a9b2687f11ad20102876ba151129e109d
+state_head: 1502fc5002edf9a99c217178048047d7be522cdc
 progress:
   total_phases: 4
   completed_phases: 0
   total_plans: 2
-  completed_plans: 0
+  completed_plans: 1
   percent: 0
 ---
 
@@ -28,11 +28,11 @@ See: .planning/PROJECT.md (updated 2026-08-12)
 ## Current Position
 
 Phase: 01 (Playable Core Loop & Live Deploy) — EXECUTING
-Plan: 1 of 2
-Status: Executing Phase 01
+Plan: 2 of 2
+Status: Ready to execute
 Last activity: 2026-08-12 — Phase 01 execution started
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [█████░░░░░] 50%
 
 ## Performance Metrics
 
@@ -54,6 +54,11 @@ Progress: [░░░░░░░░░░] 0%
 - Trend: -
 
 *Updated after each plan completion*
+**Per-Plan Metrics:**
+
+| Plan | Duration | Tasks | Files |
+|------|----------|-------|-------|
+| Phase 01 P01 | 11min | 2 tasks | 11 files |
 
 ## Accumulated Context
 
@@ -67,6 +72,9 @@ Recent decisions affecting current work:
 - Init: No dev/staging branch — every push deploys straight to production
 - Init: Alphabet mode is sequential A→Z, distinct from random Letters mode
 - Roadmap: Phases sequenced as vertical MVP slices (deploy+core loop, then modes/menu/fullscreen, then audio, then stats) rather than horizontal layers, per PROJECT_MODE=mvp
+- [Phase 01]: Walking skeleton live: Vite+TS scaffolded, pinned toolchain, base '/teaching-toddlers-typing/' locked, public repo pushed, GitHub Pages Actions deploy proven end-to-end (DEPLOY-02)
+- [Phase 01]: Adopted concurrency.cancel-in-progress: false in deploy.yml (deviation from Vite docs' cancelling default) so an in-flight production deploy is never aborted by a following push
+- [Phase 01]: Added .gsd/ to .gitignore alongside .planning/HANDOFF.json — both are transient harness/session state excluded from the now-public repo history
 
 ### Pending Todos
 
@@ -87,6 +95,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-08-13T01:33:14.705Z
-Stopped at: Phase 1 UI-SPEC approved
-Resume file: .planning/phases/01-playable-core-loop-live-deploy/01-UI-SPEC.md
+Last session: 2026-08-13T06:26:03.965Z
+Stopped at: Completed 01-01-PLAN.md
+Resume file: None

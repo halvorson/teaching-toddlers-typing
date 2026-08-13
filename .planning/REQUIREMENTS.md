@@ -9,7 +9,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Core Gameplay
 
-- [ ] **CORE-01**: Child sees one big, high-contrast letter or number centered on screen as the current target
+- [x] **CORE-01**: Child sees one big, high-contrast letter or number centered on screen as the current target
 - [ ] **CORE-02**: Pressing the physical key matching the target (case/layout-insensitive) triggers a celebration and immediately selects a new target
 - [ ] **CORE-03**: Pressing any non-matching key produces no penalty — only a subtle, neutral flicker, never a punitive cue
 - [ ] **CORE-04**: Held keys / key-repeat events don't spam repeated celebrations or incorrect-attempt records
@@ -58,8 +58,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Deployment
 
-- [ ] **DEPLOY-01**: App builds via Vite and deploys automatically to GitHub Pages on every push to main
-- [ ] **DEPLOY-02**: A minimal working deploy is validated early (before full game logic) to de-risk the GitHub Pages base-path config
+- [x] **DEPLOY-01**: App builds via Vite and deploys automatically to GitHub Pages on every push to main
+- [x] **DEPLOY-02**: A minimal working deploy is validated early (before full game logic) to de-risk the GitHub Pages base-path config
 
 ## v2 Requirements
 
@@ -91,7 +91,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CORE-01 | Phase 1 | Pending |
+| CORE-01 | Phase 1 | Complete |
 | CORE-02 | Phase 1 | Pending |
 | CORE-03 | Phase 1 | Pending |
 | CORE-04 | Phase 1 | Pending |
@@ -116,10 +116,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SET-01 | Phase 3 | Pending |
 | SET-02 | Phase 4 | Pending |
 | SHARE-01 | Phase 2 | Pending |
-| DEPLOY-01 | Phase 1 | Pending |
-| DEPLOY-02 | Phase 1 | Pending |
+| DEPLOY-01 | Phase 1 | Complete |
+| DEPLOY-02 | Phase 1 | Complete |
 
 **Coverage:**
+
 - v1 requirements: 27 total
 - Mapped to phases: 27
 - Unmapped: 0 ✓
