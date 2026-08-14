@@ -139,7 +139,14 @@ Plans:
   4. The menu list is left-aligned with an on-screen title reading "Teaching Toddlers Typing", Slay-the-Spire-style
   5. `.claude/CLAUDE.md` and `.planning/PROJECT.md` consistently refer to the project as "Teaching Toddlers Typing" — "Keyboard Quest" does not appear as the product name anywhere
 
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+**Wave 1**
+
+- [ ] 03.1-01-PLAN.md — Visual regression fixes (MENU-04, TRAIL-03) + new left-aligned home menu with title (MENU-05)
+- [ ] 03.1-02-PLAN.md — TTS pronunciation fix (AUDIO-03) + branding correction (DOCS-01)
+
 **UI hint**: yes
 
 ### Phase 4: Session Statistics
@@ -199,7 +206,7 @@ Phases execute in numeric order: 1 → 2 → 2.1 → 3 → 3.1 → 4 → 4.1 →
 | 2. Menu, Game Modes & Fullscreen | 4/4 | In Progress|  |
 | 2.1. Progression Trail & Celebration Polish (INSERTED) | 3/3 | In Progress|  |
 | 3. Sound & Audio Settings | 1/1 | In Progress|  |
-| 3.1. Bugfix & UX Polish (INSERTED) | 0/TBD | Not started | - |
+| 3.1. Bugfix & UX Polish (INSERTED) | 0/2 | Not started | - |
 | 4. Session Statistics | 0/TBD | Not started | - |
 | 4.1. Feature Enhancements (INSERTED) | 0/TBD | Not started | - |
 | 4.2. Mobile Support (INSERTED) | 0/TBD | Not started | - |
