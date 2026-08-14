@@ -57,6 +57,13 @@ let shareFallbackEl: HTMLDivElement | null = null
 // pending) and bail out instead of mutating the new mount's Share row.
 let mountGeneration = 0
 
+// Re-entrancy guard: prevents a second runShare() from starting while an
+// earlier one within the same mount is still awaiting shareCurrentUrl(). A
+// double-click/tap on the Share row before the first call resolves would
+// otherwise insert a second, untracked manual-fallback panel or overwrite
+// copiedTimeoutId without clearing the previous timer.
+let sharePending = false
+
 function isGameplayRow(row: MenuRow): row is GameMode {
   return (GAMEPLAY_ROWS as readonly string[]).includes(row)
 }
@@ -189,17 +196,23 @@ function renderManualFallback(): void {
  * microtask boundary before this line.
  */
 async function runShare(): Promise<void> {
-  const myGeneration = mountGeneration
-  const result = await shareCurrentUrl()
-  // Bail out if the menu was remounted (or unmounted) while the copy chain
-  // was pending — shareLabelEl/shareButtonEl now point at a different
-  // mount's elements, and this stale result must not touch them.
-  if (myGeneration !== mountGeneration) return
-  if (result !== 'manual-required') {
-    showCopiedFeedback()
-    return
+  if (sharePending) return // a previous call is still in flight — ignore
+  sharePending = true
+  try {
+    const myGeneration = mountGeneration
+    const result = await shareCurrentUrl()
+    // Bail out if the menu was remounted (or unmounted) while the copy chain
+    // was pending — shareLabelEl/shareButtonEl now point at a different
+    // mount's elements, and this stale result must not touch them.
+    if (myGeneration !== mountGeneration) return
+    if (result !== 'manual-required') {
+      showCopiedFeedback()
+      return
+    }
+    renderManualFallback()
+  } finally {
+    sharePending = false
   }
-  renderManualFallback()
 }
 
 /**
