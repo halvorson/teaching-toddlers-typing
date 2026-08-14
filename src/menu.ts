@@ -312,6 +312,13 @@ export function mountMenu(container: HTMLElement, handlers: MenuHandlers): void 
   const handleKeydown = (event: KeyboardEvent): void => {
     if (event.repeat) return // a held arrow key must not spin the selection
 
+    // Scope to the roving-focus button set, same as handleClick/handleHover/
+    // handleFocusIn — without this guard, keydown events bubbling up from
+    // the Share row's manual-copy fallback <input> (a nav descendant) would
+    // be hijacked by this handler, yanking focus away from the fallback box.
+    const target = event.target as HTMLElement
+    if (!target.closest<HTMLButtonElement>('button[data-row]')) return
+
     // event.key is the correct choice for these action keys — the physical
     // key-code property is reserved for gameplay character matching only.
     switch (event.key) {
