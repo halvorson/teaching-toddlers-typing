@@ -15,6 +15,7 @@ export type GameMode = 'letters' | 'numbers' | 'alphabet'
 let keydownListener: ((event: KeyboardEvent) => void) | null = null
 let mountedContainer: HTMLElement | null = null
 let currentTarget: string | null = null
+let pendingCelebrationTimers: number[] = []
 
 /** Returns the character pool for `mode`: digits for Numbers, letters for
  * every other mode. Used for both the initial target and every subsequent
@@ -69,7 +70,7 @@ export function mountGameScreen(container: HTMLElement, mode: GameMode, onQuit: 
       // testing afterwards would either never fire or fire on the wrong
       // letter (MODE-04).
       if (mode === 'alphabet' && currentTarget === LETTERS[LETTERS.length - 1]) {
-        celebrateAlphabetComplete()
+        pendingCelebrationTimers = celebrateAlphabetComplete()
       } else {
         void celebrate(target.getBoundingClientRect())
       }
@@ -91,13 +92,17 @@ export function mountGameScreen(container: HTMLElement, mode: GameMode, onQuit: 
   document.addEventListener('keydown', handler)
 }
 
-/** Removes the keydown listener registered by `mountGameScreen`, empties the
- * container, and drops module state. */
+/** Removes the keydown listener registered by `mountGameScreen`, cancels any
+ * still-pending Alphabet-completion celebration timers so a burst can never
+ * fire on a screen the player has already left, empties the container, and
+ * drops module state. */
 export function unmountGameScreen(): void {
   if (keydownListener) {
     document.removeEventListener('keydown', keydownListener)
     keydownListener = null
   }
+  pendingCelebrationTimers.forEach((id) => clearTimeout(id))
+  pendingCelebrationTimers = []
   if (mountedContainer) {
     mountedContainer.replaceChildren()
     mountedContainer = null

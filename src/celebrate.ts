@@ -66,13 +66,17 @@ export async function celebrate(anchor: DOMRect): Promise<void> {
  * animation library, no second particle system, no new colour values. Fires
  * and returns immediately (does not await anything) so it never delays the
  * target swap that has already happened by the time the caller invokes this.
+ * Returns the three scheduled timer ids so a caller that navigates away
+ * before all three bursts have fired (e.g. Escape/auto-quit) can cancel the
+ * ones still pending instead of letting them fire on a screen the player
+ * has already left.
  */
-export function celebrateAlphabetComplete(): void {
+export function celebrateAlphabetComplete(): number[] {
   const positions = [0.2, 0.5, 0.8] // normalized x fractions: left / center / right
   const delays = [0, 120, 240]
 
-  positions.forEach((x, i) => {
-    setTimeout(() => {
+  return positions.map((x, i) =>
+    window.setTimeout(() => {
       void fireBurst({
         particleCount: 120,
         spread: 100,
@@ -82,6 +86,6 @@ export function celebrateAlphabetComplete(): void {
         scalar: 1.1,
         origin: { x, y: 0.5 },
       })
-    }, delays[i])
-  })
+    }, delays[i]),
+  )
 }
