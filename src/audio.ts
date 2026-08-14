@@ -126,8 +126,6 @@ primeVoices()
  * some read it as the number, some spell or inflect it oddly — so this
  * removes the ambiguity. Declared here, not in game.ts: game.ts owns
  * character pools, audio.ts owns how a matched character is pronounced.
- * Uppercase A-Z needs no mapping: English voices read a bare capital letter
- * as its letter name.
  */
 const DIGIT_WORDS: Readonly<Record<string, string>> = {
   '0': 'zero',
@@ -143,6 +141,44 @@ const DIGIT_WORDS: Readonly<Record<string, string>> = {
 }
 
 /**
+ * Letter → spelled-out English letter-name lookup, keyed on game.ts's
+ * LETTERS pool (A-Z). A bare uppercase letter is not a pronunciation the
+ * Speech API guarantees across voices/OS combinations — some prepend
+ * "Capital" before the letter name — so this table removes the ambiguity
+ * the same way DIGIT_WORDS does for digits. Declared here, not in game.ts:
+ * game.ts owns character pools, audio.ts owns how a matched character is
+ * pronounced.
+ */
+const LETTER_WORDS: Readonly<Record<string, string>> = {
+  A: 'Ay',
+  B: 'Bee',
+  C: 'See',
+  D: 'Dee',
+  E: 'Ee',
+  F: 'Eff',
+  G: 'Jee',
+  H: 'Aitch',
+  I: 'Eye',
+  J: 'Jay',
+  K: 'Kay',
+  L: 'El',
+  M: 'Em',
+  N: 'En',
+  O: 'Oh',
+  P: 'Pee',
+  Q: 'Cue',
+  R: 'Ar',
+  S: 'Ess',
+  T: 'Tee',
+  U: 'You',
+  V: 'Vee',
+  W: 'Double-you',
+  X: 'Ex',
+  Y: 'Why',
+  Z: 'Zee',
+}
+
+/**
  * Speaks `character` aloud — the letter name in Letters/Alphabet modes, the
  * digit's English word in Numbers mode — through a freshly constructed
  * utterance, gated by its own independent `soundEnabled` read (never a value
@@ -151,7 +187,7 @@ const DIGIT_WORDS: Readonly<Record<string, string>> = {
 export function speakTarget(character: string): void {
   if (!readSettings().soundEnabled) return
   try {
-    const spoken = DIGIT_WORDS[character] ?? character
+    const spoken = DIGIT_WORDS[character] ?? LETTER_WORDS[character] ?? character
     if (!window.speechSynthesis) return
 
     // Cancel before every new utterance so a fast run of correct matches
