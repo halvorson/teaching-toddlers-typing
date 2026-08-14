@@ -114,8 +114,13 @@ Plans:
   2. A correct match optionally speaks the target letter/number name aloud when sound is enabled
   3. Settings screen lets a parent toggle sound on or off, and the toggle persists across sessions
 
-**Plans**: TBD
+**Plans**: 1 plan
 **UI hint**: yes
+
+Plans:
+**Wave 1**
+
+- [ ] 03-01-PLAN.md — Synthesized chime + spoken letter/digit wired into the correct-match branch, and the default-on Sound toggle that silences both (AUDIO-01, AUDIO-02, SET-01)
 
 ### Phase 4: Session Statistics
 
@@ -144,5 +149,5 @@ Phases execute in numeric order: 1 → 2 → 2.1 → 3 → 4
 | 1. Playable Core Loop & Live Deploy | 2/2 | Complete    | 2026-08-13 |
 | 2. Menu, Game Modes & Fullscreen | 4/4 | In Progress|  |
 | 2.1. Progression Trail & Celebration Polish (INSERTED) | 3/3 | In Progress|  |
-| 3. Sound & Audio Settings | 0/TBD | Not started | - |
+| 3. Sound & Audio Settings | 0/1 | Planned | - |
 | 4. Session Statistics | 0/TBD | Not started | - |
