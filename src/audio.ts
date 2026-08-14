@@ -177,3 +177,18 @@ export function speakTarget(character: string): void {
     // Speech is decorative — swallow failures so the core game keeps working.
   }
 }
+
+/**
+ * Cancels any in-flight or queued `speechSynthesis` utterance. Callers unmount
+ * a screen (e.g. `unmountGameScreen()`) so a spoken word from a match made
+ * just before leaving can never bleed into the menu or the next mode — the
+ * same "must never fire on a screen the player has already left" concern
+ * `unmountGameScreen()` already applies to pending celebration timers.
+ */
+export function stopSpeech(): void {
+  try {
+    window.speechSynthesis?.cancel()
+  } catch {
+    // Speech is decorative — swallow failures so the core game keeps working.
+  }
+}

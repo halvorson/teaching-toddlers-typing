@@ -8,7 +8,7 @@ import { DIGITS, LETTERS, acceptableCodes, nextInSequence, pickRandom, renderTar
 import { cancelPendingCelebration, celebrate, celebrateAlphabetComplete } from './celebrate'
 import { addTrailStar, clearTrail, mountTrailLayer, unmountTrailLayer } from './trail'
 import { readSettings } from './settings-store'
-import { playChime, speakTarget } from './audio'
+import { playChime, speakTarget, stopSpeech } from './audio'
 
 /** The three playable modes. Declared here (not in game.ts) because the
  * game screen is the module that owns "what a mode is" from the player's
@@ -119,9 +119,9 @@ export function mountGameScreen(container: HTMLElement, mode: GameMode, onQuit: 
 }
 
 /** Removes the keydown listener registered by `mountGameScreen`, cancels any
- * still-pending Alphabet-completion celebration timers so a burst can never
- * fire on a screen the player has already left, empties the container, and
- * drops module state. */
+ * still-pending Alphabet-completion celebration timers and in-flight speech
+ * so neither a celebration burst nor a spoken word can fire on a screen the
+ * player has already left, empties the container, and drops module state. */
 export function unmountGameScreen(): void {
   if (keydownListener) {
     document.removeEventListener('keydown', keydownListener)
@@ -130,6 +130,7 @@ export function unmountGameScreen(): void {
   pendingCelebrationTimers.forEach((id) => clearTimeout(id))
   pendingCelebrationTimers = []
   cancelPendingCelebration()
+  stopSpeech()
   if (mountedContainer) {
     mountedContainer.replaceChildren()
     mountedContainer = null
