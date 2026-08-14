@@ -40,8 +40,8 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **MENU-01**: Home screen shows a vertical menu: Letters, Numbers, Alphabet, Statistics, Settings, Quit
 - [ ] **MENU-02**: Menu uses a dark, moody, illustrated/gradient background (Slay-the-Spire-inspired)
 - [ ] **MENU-03**: Quit exits fullscreen and returns to the home menu
-- [ ] **MENU-04**: The home menu's drifting parallax background is visibly rendering (regression fix — built and verified in Phase 2 but not appearing live)
-- [ ] **MENU-05**: The menu list is left-aligned with an on-screen title reading "Teaching Toddlers Typing", Slay-the-Spire-style
+- [x] **MENU-04**: The home menu's drifting parallax background is visibly rendering (regression fix — built and verified in Phase 2 but not appearing live)
+- [x] **MENU-05**: The menu list is left-aligned with an on-screen title reading "Teaching Toddlers Typing", Slay-the-Spire-style
 - [ ] **MENU-06**: Quit's behavior is reconsidered through discussion and either redesigned or removed
 
 ### Statistics
@@ -71,7 +71,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [ ] **TRAIL-01**: A correct match adds a subtle star to a persistent ambient background trail — decorative only, no numbers or stats shown — that stays visible across the play session
 - [ ] **TRAIL-02**: A Settings toggle controls whether the trail resets on an incorrect key press, defaulting to off (trail persists through mistakes)
-- [ ] **TRAIL-03**: The star trail is visibly rendering during gameplay after correct matches (regression fix — built and verified in Phase 2.1 but not appearing live)
+- [x] **TRAIL-03**: The star trail is visibly rendering during gameplay after correct matches (regression fix — built and verified in Phase 2.1 but not appearing live)
 - [ ] **CELEB-01**: The correct-match celebration burst scales relative to viewport/fullscreen size so it reads clearly on high-resolution displays, not just small windows
 - [ ] **CELEB-02**: The correct-match celebration burst travels further and covers more area (bigger explosion / longer drop) while keeping the same animation speed/timing
 
@@ -146,9 +146,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CELEB-01 | Phase 2.1 | Pending |
 | CELEB-02 | Phase 2.1 | Pending |
 | AUDIO-03 | Phase 3.1 | Pending |
-| MENU-04 | Phase 3.1 | Pending |
-| TRAIL-03 | Phase 3.1 | Pending |
-| MENU-05 | Phase 3.1 | Pending |
+| MENU-04 | Phase 3.1 | Complete |
+| TRAIL-03 | Phase 3.1 | Complete |
+| MENU-05 | Phase 3.1 | Complete |
 | DOCS-01 | Phase 3.1 | Pending |
 | SET-03 | Phase 4.1 | Pending |
 | MENU-06 | Phase 4.1 | Pending |

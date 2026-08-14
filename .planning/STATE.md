@@ -1,18 +1,18 @@
 ---
 gsd_state_version: 1.0
-current_phase: 03
-current_phase_name: Sound & Audio Settings
+current_phase: 03.1
+current_phase_name: Bugfix & UX Polish
 status: executing
-stopped_at: Phase 3.1 UI-SPEC approved
-last_updated: "2026-08-14T19:37:20.999Z"
-last_activity: 2026-08-13
-last_activity_desc: Phase 01 complete, transitioned to Phase 2
-state_head: 06060fccda23a20204fd6029113fefdba55629e9
+stopped_at: Completed 03.1-01-PLAN.md
+last_updated: "2026-08-14T19:42:40.235Z"
+last_activity: 2026-08-14
+last_activity_desc: Phase 03.1 execution started
+state_head: 83493a9f2547cf182b3a3cdfe8ae18191dada7db
 progress:
   total_phases: 8
   completed_phases: 1
   total_plans: 12
-  completed_plans: 10
+  completed_plans: 11
   percent: 13
 ---
 
@@ -23,16 +23,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-08-13)
 
 **Core value:** Every correct physical key press produces an immediate, delightful, low-stakes celebration — that instant feedback loop is what teaches the letter/key association and keeps a toddler engaged.
-**Current focus:** Phase 03 — Sound & Audio Settings
+**Current focus:** Phase 03.1 — Bugfix & UX Polish
 
 ## Current Position
 
-Phase: 03 (Sound & Audio Settings) — EXECUTING
-Plan: 1 of 1
+Phase: 03.1 (Bugfix & UX Polish) — EXECUTING
+Plan: 2 of 2
 Status: Ready to execute
-Last activity: 2026-08-13 — Phase 03 execution started
+Last activity: 2026-08-14 — Phase 03.1 execution started
 
-Progress: [██▌░░░░░░░] 25% (1/4 phases complete)
+Progress: [█████████░] 92% (1/4 phases complete)
 
 ## Performance Metrics
 
@@ -60,6 +60,7 @@ Progress: [██▌░░░░░░░] 25% (1/4 phases complete)
 |------|----------|-------|-------|
 | Phase 01 P01 | 11min | 2 tasks | 11 files |
 | Phase 01 P02 | 4min | 3 tasks | 5 files |
+| Phase 03.1 P01 | 6min | 3 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -80,6 +81,8 @@ Recent decisions affecting current work:
 - [Phase 01-02]: correct-pulse and incorrect-flash animations both restart via remove-class/force-reflow/re-add-class, since re-adding an already-present class does not replay a CSS animation
 - [Phase 01]: Post-verification, discovered the child's real name in 11 tracked planning/doc files in the now-public repo. Redacted to a generic placeholder and scrubbed from all git history via `git filter-repo --replace-text` + force-push. Going forward: never put the child's real name in any tracked file (see PROJECT.md Context note).
 - [Phase 3.1 planning]: "Keyboard Quest" was NEVER the project's real name — it's a stale planning-doc placeholder that crept into `CLAUDE.md`/`PROJECT.md` headers. The actual product name is "Teaching Toddlers Typing" (already correct in the repo name and browser tab title). DOCS-01 (Phase 3.1) corrects `CLAUDE.md`/`PROJECT.md`; ROADMAP.md/REQUIREMENTS.md headers were fixed immediately since they were already being edited this session.
+- [Phase 3.1-01]: Single .home-menu wrapper (title+nav) chosen so both always share one left-margin source, per plan's single-wrapper design
+- [Phase 3.1-01]: color-mix() cascade-fallback pairing (plain var() declaration immediately before color-mix()) established as the defensive pattern for MENU-04/TRAIL-03; available as precedent for other color-mix() uses in style.css
 
 ### Pending Todos
 
@@ -115,6 +118,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-08-14T15:09:53.210Z
-Stopped at: Phase 3.1 UI-SPEC approved
-Resume file: .planning/phases/03.1-bugfix-ux-polish/03.1-UI-SPEC.md
+Last session: 2026-08-14T19:42:40.056Z
+Stopped at: Completed 03.1-01-PLAN.md
+Resume file: None
