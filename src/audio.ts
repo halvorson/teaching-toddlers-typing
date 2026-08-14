@@ -106,13 +106,14 @@ function primeVoices(): void {
   try {
     if (!window.speechSynthesis) return
     cachedVoices = window.speechSynthesis.getVoices()
-    window.speechSynthesis.addEventListener(
-      'voiceschanged',
-      () => {
-        cachedVoices = window.speechSynthesis.getVoices()
-      },
-      { once: true },
-    )
+    // Deliberately not { once: true }: some Chromium versions/OS combos fire
+    // voiceschanged more than once as the voice list populates incrementally.
+    // Reassigning cachedVoices from getVoices() again is cheap and always
+    // safe, so resyncing on every firing (not just the first) ensures the
+    // most complete list wins.
+    window.speechSynthesis.addEventListener('voiceschanged', () => {
+      cachedVoices = window.speechSynthesis.getVoices()
+    })
   } catch {
     // Speech is decorative — swallow failures so the core game keeps working.
   }
