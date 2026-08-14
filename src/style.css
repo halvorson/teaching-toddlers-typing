@@ -89,9 +89,11 @@ body[data-chrome="game"] #star-trail {
   width: 6px;
   height: 6px;
   border-radius: 50%;
+  background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
   background: radial-gradient(circle,
     color-mix(in srgb, var(--color-accent) 70%, transparent) 0%,
     transparent 70%);
+  box-shadow: 0 0 6px var(--color-accent);
   box-shadow: 0 0 6px color-mix(in srgb, var(--color-accent) 45%, transparent);
   opacity: 0;
   transform: scale(0.3);
