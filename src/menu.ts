@@ -167,12 +167,17 @@ function renderManualFallback(): void {
   menuButtons.forEach((button) => button.classList.remove('focused'))
 
   // ...and resync it (class only — no .focus() call, which would hijack
-  // the browser's native Tab target) the moment focus leaves the fallback
-  // box. Forward Tab lands on a `button[data-row]` and handleFocusIn
-  // resyncs it anyway; this covers Shift+Tab back onto the Share button,
-  // where handleFocusIn's `index === focusIndex` early-return would
-  // otherwise leave `.focused` incorrectly cleared.
-  urlBox.addEventListener('blur', () => syncFocusedClass(), { once: true })
+  // the browser's native Tab target) every time focus leaves the fallback
+  // box — not just once. Forward Tab lands on a `button[data-row]` and
+  // handleFocusIn resyncs it anyway; this covers every Shift+Tab back onto
+  // the Share button (including a second or later cycle while the panel is
+  // still visible), where handleFocusIn's `index === focusIndex`
+  // early-return would otherwise leave `.focused` incorrectly cleared.
+  // Deliberately NOT `{ once: true }`: urlBox itself (and this listener
+  // with it) is discarded every time resetShareFeedback()/unmountMenu()
+  // removes shareFallbackEl from the DOM, so a persistent listener carries
+  // no leak risk and correctly resyncs on every blur, not just the first.
+  urlBox.addEventListener('blur', () => syncFocusedClass())
 }
 
 /**
