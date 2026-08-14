@@ -27,17 +27,17 @@ const DEFAULT_SETTINGS: AppSettings = { version: 1, resetTrailOnMistake: false }
 export function readSettings(): AppSettings {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return DEFAULT_SETTINGS
+    if (!raw) return { ...DEFAULT_SETTINGS }
 
     const parsed = JSON.parse(raw) as Partial<AppSettings>
     const isValid = parsed.version === 1 && typeof parsed.resetTrailOnMistake === 'boolean'
     if (!isValid) {
-      return DEFAULT_SETTINGS
+      return { ...DEFAULT_SETTINGS }
     }
 
     return { version: 1, resetTrailOnMistake: parsed.resetTrailOnMistake as boolean }
   } catch {
-    return DEFAULT_SETTINGS
+    return { ...DEFAULT_SETTINGS }
   }
 }
 

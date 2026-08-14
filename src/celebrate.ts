@@ -43,6 +43,25 @@ function viewportScaleFactor(): number {
 }
 
 /**
+ * Bumped by cancelPendingCelebration() so any fireBurst() call whose
+ * dynamic-import await is still in flight can detect it was cancelled and
+ * skip firing (WR-03) — the same "never fire on a screen the player has
+ * already left" guarantee celebrateAlphabetComplete()'s timer-id tracking
+ * gives that path, extended to the ordinary per-match burst's import race.
+ */
+let burstGeneration = 0
+
+/**
+ * Cancels any celebrate() burst whose dynamic-import await has not yet
+ * resolved. Call this from a screen's unmount alongside clearing any
+ * scheduled celebrateAlphabetComplete() timer ids, so neither path can fire
+ * confetti after the screen that triggered it has already been torn down.
+ */
+export function cancelPendingCelebration(): void {
+  burstGeneration++
+}
+
+/**
  * The module's single dynamic-import site, single reduced-motion guard
  * site, and single viewport-scaling site. Every caller — celebrate() and
  * celebrateAlphabetComplete() alike — goes through this function, so none
@@ -51,8 +70,10 @@ function viewportScaleFactor(): number {
 async function fireBurst(opts: BurstOptions): Promise<void> {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
+  const myGeneration = burstGeneration
   try {
     const { default: confetti } = await import('canvas-confetti')
+    if (myGeneration !== burstGeneration) return // cancelled while the import was in flight
     confetti({
       ...opts,
       startVelocity: opts.startVelocity * viewportScaleFactor(),
