@@ -10,9 +10,13 @@ body {
   background: var(--color-bg);
 }
 
-/* Moody drifting menu background — two CSS-only parallax layers behind all
+/* Moody menu background — two CSS-only ambient glow layers behind all
    content. No image asset of any kind; both layers are radial gradients
-   tinted through color-mix against the existing palette tokens. */
+   tinted through color-mix against the existing palette tokens. Fixed
+   position and full-viewport sizing (no background-size/transform
+   trickery) so the fade always completes at the farthest corner with no
+   visible seam, regardless of viewport size/aspect ratio — only the hue
+   animates, not position. */
 body::before,
 body::after {
   content: '';
@@ -25,32 +29,29 @@ body::after {
 
 body::before {
   background:
-    radial-gradient(circle at 30% 30%, var(--color-surface), transparent 120%),
-    radial-gradient(circle at 70% 70%, var(--color-surface), transparent 120%);
+    radial-gradient(circle at 30% 30%, var(--color-surface), transparent 100%),
+    radial-gradient(circle at 70% 70%, var(--color-surface), transparent 100%);
   background:
-    radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--color-surface) 38%, transparent), transparent 120%),
-    radial-gradient(circle at 70% 70%, color-mix(in srgb, var(--color-surface) 38%, transparent), transparent 120%);
-  background-size: 150% 150%;
+    radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--color-surface) 38%, transparent), transparent 100%),
+    radial-gradient(circle at 70% 70%, color-mix(in srgb, var(--color-surface) 38%, transparent), transparent 100%);
   animation: drift-a 16s ease-in-out infinite alternate;
 }
 
 body::after {
-  background: radial-gradient(circle at 50% 40%, var(--color-accent), transparent 110%);
-  background: radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--color-accent) 26%, transparent), transparent 110%);
+  background: radial-gradient(circle at 50% 40%, var(--color-accent), transparent 100%);
+  background: radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--color-accent) 26%, transparent), transparent 100%);
   animation: drift-b 24s ease-in-out infinite alternate;
 }
 
 @keyframes drift-a {
   to {
-    transform: translate(12%, -9%);
-    filter: hue-rotate(18deg);
+    filter: hue-rotate(24deg);
   }
 }
 
 @keyframes drift-b {
   to {
-    transform: translate(-9%, 12%);
-    filter: hue-rotate(-18deg);
+    filter: hue-rotate(-24deg);
   }
 }
 
