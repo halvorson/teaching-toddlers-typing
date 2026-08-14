@@ -89,7 +89,7 @@ Plans:
   3. The confetti celebration scales with viewport/fullscreen size so it's clearly visible on high-resolution monitors, not just small windows
   4. The confetti burst travels further / covers more area than Phase 1's tuning, at the same animation speed
 
-**Plans**: 2/3 plans executed
+**Plans**: 3/3 plans executed
 **UI hint**: yes
 
 Plans:
@@ -100,7 +100,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 02.1-03-PLAN.md — Settings screen: versioned localStorage store, windowed panel + `role="switch"` toggle, menu reachability, toggle-gated trail wipe (TRAIL-02)
+- [x] 02.1-03-PLAN.md — Settings screen: versioned localStorage store, windowed panel + `role="switch"` toggle, menu reachability, toggle-gated trail wipe (TRAIL-02)
 
 ### Phase 3: Sound & Audio Settings
 
@@ -143,6 +143,6 @@ Phases execute in numeric order: 1 → 2 → 2.1 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Playable Core Loop & Live Deploy | 2/2 | Complete    | 2026-08-13 |
 | 2. Menu, Game Modes & Fullscreen | 4/4 | In Progress|  |
-| 2.1. Progression Trail & Celebration Polish (INSERTED) | 2/3 | In Progress|  |
+| 2.1. Progression Trail & Celebration Polish (INSERTED) | 3/3 | In Progress|  |
 | 3. Sound & Audio Settings | 0/TBD | Not started | - |
 | 4. Session Statistics | 0/TBD | Not started | - |
