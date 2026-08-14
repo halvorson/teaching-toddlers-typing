@@ -26,3 +26,4 @@ dist-ssr
 # GSD transient session/dispatch state (not project history)
 .planning/HANDOFF.json
 .gsd/
+.planning/research/.cache/
