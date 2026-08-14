@@ -61,18 +61,11 @@ body::after {
   }
 }
 
-/* Gameplay screens are a plain dark field — the drifting layers are only
-   for the menu (and, per assumption 6, the windowed panels above it). */
-body[data-chrome="game"]::before,
-body[data-chrome="game"]::after {
-  opacity: 0;
-}
-
 /* Ambient star trail (TRAIL-01) — a dedicated fixed full-viewport layer
    between the drifting background (-2) and all interactive/text UI (auto,
-   above -1). Shown only during gameplay, the exact inverse of the drifting
-   background's data-chrome suppression above. Purely decorative: no text,
-   no numeric state, ever rendered here. */
+   above -1). Shown only during gameplay (the drifting background layers
+   below it are shown in both menu and gameplay). Purely decorative: no
+   text, no numeric state, ever rendered here. */
 #star-trail {
   position: fixed;
   inset: 0;
