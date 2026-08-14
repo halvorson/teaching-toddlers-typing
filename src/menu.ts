@@ -43,6 +43,7 @@ let keydownListener: ((event: KeyboardEvent) => void) | null = null
 let hoverListener: ((event: MouseEvent) => void) | null = null
 let focusInListener: ((event: FocusEvent) => void) | null = null
 let mountedNav: HTMLElement | null = null
+let mountedWrapper: HTMLElement | null = null
 let menuButtons: HTMLButtonElement[] = []
 let focusIndex = 0
 let shareLabelEl: HTMLSpanElement | null = null
@@ -288,6 +289,7 @@ export function mountMenu(container: HTMLElement, handlers: MenuHandlers): void 
   nav.appendChild(groupQuit)
   wrapper.appendChild(nav)
   container.appendChild(wrapper)
+  mountedWrapper = wrapper
 
   const handleClick = (event: MouseEvent): void => {
     const target = event.target as HTMLElement
@@ -392,10 +394,11 @@ export function unmountMenu(): void {
   keydownListener = null
   hoverListener = null
   focusInListener = null
-  if (mountedNav?.parentElement) {
-    mountedNav.parentElement.replaceChildren()
+  if (mountedWrapper?.parentElement) {
+    mountedWrapper.parentElement.replaceChildren()
   }
   mountedNav = null
+  mountedWrapper = null
   menuButtons = []
   focusIndex = 0
 
