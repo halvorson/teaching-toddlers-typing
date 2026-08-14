@@ -35,6 +35,7 @@ const COPIED_FEEDBACK_MS = 1500
 export interface MenuHandlers {
   onLaunchMode(mode: GameMode): void
   onQuit(): void
+  onOpenSettings(): void
 }
 
 let clickListener: ((event: MouseEvent) => void) | null = null
@@ -248,9 +249,11 @@ export function mountMenu(container: HTMLElement, handlers: MenuHandlers): void 
     } else if (row === 'share') {
       resetShareFeedback()
       void runShare()
+    } else if (row === 'settings') {
+      handlers.onOpenSettings()
     }
-    // stats and settings stay undispatched — their real content belongs to
-    // the phases that own those screens.
+    // stats stays undispatched — its real content belongs to the phase that
+    // owns that screen (Phase 4).
   }
 
   const handleKeydown = (event: KeyboardEvent): void => {

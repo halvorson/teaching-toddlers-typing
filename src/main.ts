@@ -3,6 +3,7 @@ import { readInitialScreen, navigateTo, type Screen } from './router'
 import { enterFullscreen, exitFullscreenIfActive } from './fullscreen'
 import { mountMenu, unmountMenu, type MenuHandlers } from './menu'
 import { mountGameScreen, unmountGameScreen, type GameMode } from './game-screen'
+import { mountSettingsScreen, unmountSettingsScreen } from './settings'
 
 const app = document.querySelector<HTMLDivElement>('#app')!
 
@@ -14,6 +15,9 @@ const menuHandlers: MenuHandlers = {
   },
   onQuit(): void {
     quitToMenu()
+  },
+  onOpenSettings(): void {
+    mountScreen('settings')
   },
 }
 
@@ -31,11 +35,14 @@ function mountScreen(screen: Screen): void {
     case 'alphabet':
       unmountGameScreen()
       break
+    case 'settings':
+      unmountSettingsScreen()
+      break
   }
 
   currentScreen = screen
   navigateTo(screen)
-  document.body.dataset.chrome = screen === 'menu' ? 'menu' : 'game'
+  document.body.dataset.chrome = screen === 'menu' || screen === 'settings' ? 'menu' : 'game'
 
   switch (screen) {
     case 'menu':
@@ -45,6 +52,9 @@ function mountScreen(screen: Screen): void {
     case 'numbers':
     case 'alphabet':
       mountGameScreen(app, screen, quitToMenu)
+      break
+    case 'settings':
+      mountSettingsScreen(app, quitToMenu)
       break
   }
 }
