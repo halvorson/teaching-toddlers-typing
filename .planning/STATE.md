@@ -92,6 +92,12 @@ None yet.
 
 - Phase 2.1 inserted after Phase 2: Progression Trail & Celebration Polish — ambient star trail on correct matches + viewport-scaled/bigger confetti, per user feedback while Phase 2 was in flight (URGENT)
 
+## Deferred Verification
+
+| Phase | State | Resume |
+|-------|-------|--------|
+| 02 | verification_deferred_human | /gsd:verify-work 02 |
+
 ## Deferred Items
 
 Items acknowledged and carried forward from previous milestone close:
