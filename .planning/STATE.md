@@ -97,6 +97,7 @@ None yet.
 | Phase | State | Resume |
 |-------|-------|--------|
 | 02 | verification_deferred_human | /gsd:verify-work 02 |
+| 02.1 | verification_deferred_human | /gsd:verify-work 02.1 |
 
 ## Deferred Items
 
