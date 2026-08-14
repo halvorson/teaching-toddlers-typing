@@ -68,7 +68,7 @@ export function mountSettingsScreen(container: HTMLElement, onBack: () => void):
       const current = toggle.getAttribute('aria-checked') === 'true'
       const next = !current
       toggle.setAttribute('aria-checked', String(next))
-      writeSettings({ version: 1, resetTrailOnMistake: next } satisfies AppSettings)
+      writeSettings({ ...readSettings(), resetTrailOnMistake: next } satisfies AppSettings)
       return
     }
 

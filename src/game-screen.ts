@@ -8,6 +8,7 @@ import { DIGITS, LETTERS, acceptableCodes, nextInSequence, pickRandom, renderTar
 import { cancelPendingCelebration, celebrate, celebrateAlphabetComplete } from './celebrate'
 import { addTrailStar, clearTrail, mountTrailLayer, unmountTrailLayer } from './trail'
 import { readSettings } from './settings-store'
+import { playChime } from './audio'
 
 /** The three playable modes. Declared here (not in game.ts) because the
  * game screen is the module that owns "what a mode is" from the player's
@@ -91,6 +92,7 @@ export function mountGameScreen(container: HTMLElement, mode: GameMode, onQuit: 
       void target.offsetWidth
       target.classList.add('correct-pulse')
       addTrailStar()
+      playChime()
     } else {
       // Read fresh on every wrong key press (not cached at mount) so
       // flipping the toggle in Settings and returning to a mode takes
