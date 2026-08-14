@@ -98,6 +98,7 @@ None yet.
 |-------|-------|--------|
 | 02 | verification_deferred_human | /gsd:verify-work 02 |
 | 02.1 | verification_deferred_human | /gsd:verify-work 02.1 |
+| 03 | verification_deferred_human | /gsd:verify-work 03 |
 
 ## Deferred Items
 
