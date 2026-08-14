@@ -1,4 +1,4 @@
-# Keyboard Quest
+# Teaching Toddlers Typing
 
 ## What This Is
 

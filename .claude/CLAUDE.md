@@ -2,7 +2,7 @@
 
 ## Project
 
-**Keyboard Quest**
+**Teaching Toddlers Typing**
 
 A dark, pearlescent-themed toddler typing game for 2-3 year olds learning to associate letters and numbers on a physical keyboard with what's shown on screen. One big target character sits center-screen; the child hunts and pecks the matching physical key, and a muted celebratory animation (plus optional sound) plays before a new target appears. Built specifically for the child, who loves "playing working," but shareable with any toddler via a simple link.
 
@@ -106,7 +106,7 @@ A dark, pearlescent-themed toddler typing game for 2-3 year olds learning to ass
 
 ## GitHub Actions Deployment Workflow
 
-- `https://<username>.github.io/keyboard-quest/` (project page, most likely case) → `base: '/keyboard-quest/'`
+- `https://<username>.github.io/teaching-toddlers-typing/` (project page, most likely case) → `base: '/teaching-toddlers-typing/'`
 - `https://<username>.github.io/` (root/user page or custom domain) → `base: '/'` (or omit — it's the default)
 
 ## Sources
