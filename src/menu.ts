@@ -71,8 +71,20 @@ function isGameplayRow(row: MenuRow): row is GameMode {
  */
 function focusRow(index: number): void {
   focusIndex = (index + menuButtons.length) % menuButtons.length
-  menuButtons.forEach((button, i) => button.classList.toggle('focused', i === focusIndex))
+  syncFocusedClass()
   menuButtons[focusIndex].focus()
+}
+
+/**
+ * The class-only half of focusRow(): toggles `.focused` onto whichever
+ * button matches the current focusIndex without touching real DOM focus.
+ * Split out so the Share manual-fallback textbox (which isn't part of the
+ * roving-focus button set) can resync the indicator when it loses focus
+ * without calling .focus() itself — doing that inside a blur handler would
+ * hijack the browser's native Tab-navigation target.
+ */
+function syncFocusedClass(): void {
+  menuButtons.forEach((button, i) => button.classList.toggle('focused', i === focusIndex))
 }
 
 /**
@@ -146,6 +158,21 @@ function renderManualFallback(): void {
   // input focus as a side effect anyway, so the link is highlighted and
   // ready for a single Cmd/Ctrl-C.
   urlBox.select()
+
+  // urlBox isn't a `button[data-row]` element, so the delegated
+  // handleFocusIn listener ignores it and the `.focused` class stays on
+  // the Share button even though real DOM focus just moved to this input —
+  // the exact "focused class and real focus can never disagree" invariant
+  // this module's header comment promises. Clear it explicitly here...
+  menuButtons.forEach((button) => button.classList.remove('focused'))
+
+  // ...and resync it (class only — no .focus() call, which would hijack
+  // the browser's native Tab target) the moment focus leaves the fallback
+  // box. Forward Tab lands on a `button[data-row]` and handleFocusIn
+  // resyncs it anyway; this covers Shift+Tab back onto the Share button,
+  // where handleFocusIn's `index === focusIndex` early-return would
+  // otherwise leave `.focused` incorrectly cleared.
+  urlBox.addEventListener('blur', () => syncFocusedClass(), { once: true })
 }
 
 /**
