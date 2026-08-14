@@ -292,3 +292,97 @@ body[data-chrome="game"] #star-trail {
     transform: scale(1);
   }
 }
+
+/* Settings panel */
+
+.settings-panel {
+  width: 100%;
+  max-width: 480px;
+  padding: 32px;
+  background: var(--color-surface);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  animation: screen-fade-in 100ms ease-out;
+}
+
+.panel-back {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--color-fg);
+  background: none;
+  border: none;
+  padding: 0;
+  align-self: flex-start;
+  cursor: pointer;
+  transition: color 100ms ease-out;
+}
+
+.panel-back:hover,
+.panel-back:focus-visible {
+  color: var(--color-accent);
+}
+
+.panel-title {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+  color: var(--color-fg);
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 56px;
+  column-gap: 16px;
+}
+
+.toggle-row__label {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-fg);
+}
+
+.toggle-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  background: color-mix(in srgb, var(--color-fg) 20%, transparent);
+  transition: background-color 150ms ease-out;
+}
+
+.toggle-switch[aria-checked="true"] {
+  background: var(--color-accent);
+}
+
+.toggle-switch__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-fg);
+  transition: transform 150ms ease-out;
+}
+
+.toggle-switch[aria-checked="true"] .toggle-switch__thumb {
+  transform: translateX(20px);
+}
+
+.toggle-switch:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}

@@ -5,9 +5,9 @@
  * stack growth — the history-append method appears nowhere in this app.
  */
 
-export type Screen = 'menu' | 'letters' | 'numbers' | 'alphabet'
+export type Screen = 'menu' | 'letters' | 'numbers' | 'alphabet' | 'settings'
 
-const VALID_SCREENS: readonly Screen[] = Object.freeze(['menu', 'letters', 'numbers', 'alphabet'])
+const VALID_SCREENS: readonly Screen[] = Object.freeze(['menu', 'letters', 'numbers', 'alphabet', 'settings'])
 
 /**
  * Reads the `screen` query parameter and returns it only if it appears in
