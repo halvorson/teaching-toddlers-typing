@@ -50,6 +50,12 @@ let shareButtonEl: HTMLButtonElement | null = null
 let copiedTimeoutId: number | null = null
 let shareFallbackEl: HTMLDivElement | null = null
 
+// Incremented on every mountMenu()/unmountMenu() call so an in-flight
+// runShare() promise from a previous mount can detect it's stale (the menu
+// was remounted or torn down while its shareCurrentUrl() await was
+// pending) and bail out instead of mutating the new mount's Share row.
+let mountGeneration = 0
+
 function isGameplayRow(row: MenuRow): row is GameMode {
   return (GAMEPLAY_ROWS as readonly string[]).includes(row)
 }
@@ -65,8 +71,20 @@ function isGameplayRow(row: MenuRow): row is GameMode {
  */
 function focusRow(index: number): void {
   focusIndex = (index + menuButtons.length) % menuButtons.length
-  menuButtons.forEach((button, i) => button.classList.toggle('focused', i === focusIndex))
+  syncFocusedClass()
   menuButtons[focusIndex].focus()
+}
+
+/**
+ * The class-only half of focusRow(): toggles `.focused` onto whichever
+ * button matches the current focusIndex without touching real DOM focus.
+ * Split out so the Share manual-fallback textbox (which isn't part of the
+ * roving-focus button set) can resync the indicator when it loses focus
+ * without calling .focus() itself — doing that inside a blur handler would
+ * hijack the browser's native Tab-navigation target.
+ */
+function syncFocusedClass(): void {
+  menuButtons.forEach((button, i) => button.classList.toggle('focused', i === focusIndex))
 }
 
 /**
@@ -140,6 +158,21 @@ function renderManualFallback(): void {
   // input focus as a side effect anyway, so the link is highlighted and
   // ready for a single Cmd/Ctrl-C.
   urlBox.select()
+
+  // urlBox isn't a `button[data-row]` element, so the delegated
+  // handleFocusIn listener ignores it and the `.focused` class stays on
+  // the Share button even though real DOM focus just moved to this input —
+  // the exact "focused class and real focus can never disagree" invariant
+  // this module's header comment promises. Clear it explicitly here...
+  menuButtons.forEach((button) => button.classList.remove('focused'))
+
+  // ...and resync it (class only — no .focus() call, which would hijack
+  // the browser's native Tab target) the moment focus leaves the fallback
+  // box. Forward Tab lands on a `button[data-row]` and handleFocusIn
+  // resyncs it anyway; this covers Shift+Tab back onto the Share button,
+  // where handleFocusIn's `index === focusIndex` early-return would
+  // otherwise leave `.focused` incorrectly cleared.
+  urlBox.addEventListener('blur', () => syncFocusedClass(), { once: true })
 }
 
 /**
@@ -150,7 +183,12 @@ function renderManualFallback(): void {
  * microtask boundary before this line.
  */
 async function runShare(): Promise<void> {
+  const myGeneration = mountGeneration
   const result = await shareCurrentUrl()
+  // Bail out if the menu was remounted (or unmounted) while the copy chain
+  // was pending — shareLabelEl/shareButtonEl now point at a different
+  // mount's elements, and this stale result must not touch them.
+  if (myGeneration !== mountGeneration) return
   if (result !== 'manual-required') {
     showCopiedFeedback()
     return
@@ -164,6 +202,7 @@ async function runShare(): Promise<void> {
  * so keyboard navigation works immediately with no initial Tab press.
  */
 export function mountMenu(container: HTMLElement, handlers: MenuHandlers): void {
+  mountGeneration++ // invalidate any in-flight runShare() from a prior mount
   container.replaceChildren()
 
   const nav = document.createElement('nav')
@@ -321,6 +360,7 @@ export function mountMenu(container: HTMLElement, handlers: MenuHandlers): void 
 /** Removes the delegated click/keydown/hover listeners and resets all
  * module-level menu state. */
 export function unmountMenu(): void {
+  mountGeneration++ // invalidate any in-flight runShare() from this mount
   if (mountedNav) {
     if (clickListener) mountedNav.removeEventListener('click', clickListener)
     if (keydownListener) mountedNav.removeEventListener('keydown', keydownListener)
