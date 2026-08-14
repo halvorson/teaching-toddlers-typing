@@ -2,10 +2,12 @@
  * Lazy-loaded confetti bursts. canvas-confetti is loaded via a dynamic
  * import() inside the shared fireBurst helper below, so it costs nothing on
  * the initial page load and is code-split into its own chunk. fireBurst is
- * also the module's single reduced-motion guard site — every present and
- * future caller inherits the prefers-reduced-motion respect without having
- * to remember it, whether that caller is the ordinary per-match celebration
- * or the bigger Alphabet-mode Z-completion celebration.
+ * also the module's single reduced-motion guard site and single
+ * viewport-scaling site — every present and future caller inherits the
+ * prefers-reduced-motion respect and the clamped viewport-scale factor
+ * without having to remember either one, whether that caller is the
+ * ordinary per-match celebration or the bigger Alphabet-mode Z-completion
+ * celebration.
  */
 
 /** Muted jewel-tone palette locked in 01-UI-SPEC.md, shared by every burst
@@ -24,16 +26,38 @@ interface BurstOptions {
 }
 
 /**
- * The module's single dynamic-import site and single reduced-motion guard
- * site. Every caller — celebrate() and celebrateAlphabetComplete() alike —
- * goes through this function, so neither one can forget either concern.
+ * Clamped viewport-scale factor for burst launch velocity (CELEB-01,
+ * CELEB-02). Computed fresh on every call — no caching, no resize listener
+ * — so a fullscreen transition is picked up on the very next burst with
+ * zero lifecycle state to clean up. The geometric mean of the width and
+ * height ratios against a 1280x800 baseline means a window that grows in
+ * only one dimension scales more gently than one that grows in both. The
+ * clamp keeps small windows at no less than 80% of Phase 1's shipped
+ * tuning and large/fullscreen displays at no more than 250% of it.
+ */
+function viewportScaleFactor(): number {
+  const widthRatio = window.innerWidth / 1280
+  const heightRatio = window.innerHeight / 800
+  const factor = Math.sqrt(widthRatio * heightRatio)
+  return Math.min(2.5, Math.max(0.8, factor))
+}
+
+/**
+ * The module's single dynamic-import site, single reduced-motion guard
+ * site, and single viewport-scaling site. Every caller — celebrate() and
+ * celebrateAlphabetComplete() alike — goes through this function, so none
+ * of them can forget any of these three concerns.
  */
 async function fireBurst(opts: BurstOptions): Promise<void> {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
   try {
     const { default: confetti } = await import('canvas-confetti')
-    confetti({ ...opts, colors: CONFETTI_COLORS })
+    confetti({
+      ...opts,
+      startVelocity: opts.startVelocity * viewportScaleFactor(),
+      colors: CONFETTI_COLORS,
+    })
   } catch {
     // Confetti is decorative — swallow load failures so the core game keeps working.
   }
