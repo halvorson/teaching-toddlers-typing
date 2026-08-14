@@ -25,6 +25,9 @@ body::after {
 
 body::before {
   background:
+    radial-gradient(circle at 30% 30%, var(--color-surface), transparent 60%),
+    radial-gradient(circle at 70% 70%, var(--color-surface), transparent 60%);
+  background:
     radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--color-surface) 10%, transparent), transparent 60%),
     radial-gradient(circle at 70% 70%, color-mix(in srgb, var(--color-surface) 10%, transparent), transparent 60%);
   background-size: 150% 150%;
@@ -32,6 +35,7 @@ body::before {
 }
 
 body::after {
+  background: radial-gradient(circle at 50% 40%, var(--color-accent), transparent 55%);
   background: radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--color-accent) 6%, transparent), transparent 55%);
   animation: drift-b 65s ease-in-out infinite alternate;
 }
