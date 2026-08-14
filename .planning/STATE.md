@@ -4,14 +4,14 @@ current_phase: 03
 current_phase_name: Sound & Audio Settings
 status: executing
 stopped_at: Phase 3.1 UI-SPEC approved
-last_updated: "2026-08-14T15:09:53.434Z"
+last_updated: "2026-08-14T19:37:20.999Z"
 last_activity: 2026-08-13
 last_activity_desc: Phase 01 complete, transitioned to Phase 2
-state_head: 278f06f4bd6897b6987257efd01504f7e4d07e68
+state_head: 06060fccda23a20204fd6029113fefdba55629e9
 progress:
   total_phases: 8
   completed_phases: 1
-  total_plans: 10
+  total_plans: 12
   completed_plans: 10
   percent: 13
 ---
@@ -29,7 +29,7 @@ See: .planning/PROJECT.md (updated 2026-08-13)
 
 Phase: 03 (Sound & Audio Settings) — EXECUTING
 Plan: 1 of 1
-Status: Executing Phase 03
+Status: Ready to execute
 Last activity: 2026-08-13 — Phase 03 execution started
 
 Progress: [██▌░░░░░░░] 25% (1/4 phases complete)
@@ -88,6 +88,7 @@ None yet.
 ### Blockers/Concerns
 
 - Phase 2 (fullscreen handling): iOS Safari fullscreen support varies by OS version — validate directly against the family's actual hardware rather than assuming from docs (research flag).
+- Phase 3.1 planning: `check.decision-coverage-plan` gate returned `could-not-parse` (reason: no CONTEXT.md in this project uses the gate's expected `D-NN:` bullet-ID format — confirmed project-wide, not specific to this phase). Manually traced instead: the Menu Title & Left-Alignment answers → 03.1-01-PLAN.md Task 1; the four Claude's-Discretion bugfix items (AUDIO-03/MENU-04/TRAIL-03/DOCS-01) → 03.1-01-PLAN.md Tasks 2-3 and 03.1-02-PLAN.md Tasks 1-2. Proceeded past the gate on that manual verification; verify-phase may re-surface this.
 
 ### Roadmap Evolution
 
