@@ -89,12 +89,18 @@ Plans:
   3. The confetti celebration scales with viewport/fullscreen size so it's clearly visible on high-resolution monitors, not just small windows
   4. The confetti burst travels further / covers more area than Phase 1's tuning, at the same animation speed
 
-**Plans**: TBD
+**Plans**: 3 plans
 **UI hint**: yes
 
 Plans:
+**Wave 1**
 
-- [ ] TBD (run /gsd:plan-phase 2.1 to break down)
+- [ ] 02.1-01-PLAN.md — Ambient star trail end-to-end: `trail.ts` layer, z-index rewire, star append on every correct match, pop-in + reduced-motion (TRAIL-01)
+- [ ] 02.1-02-PLAN.md — Viewport-proportional celebration: clamped `viewportScaleFactor()` threaded through `fireBurst()` (CELEB-01, CELEB-02)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 02.1-03-PLAN.md — Settings screen: versioned localStorage store, windowed panel + `role="switch"` toggle, menu reachability, toggle-gated trail wipe (TRAIL-02)
 
 ### Phase 3: Sound & Audio Settings
 
@@ -137,6 +143,6 @@ Phases execute in numeric order: 1 → 2 → 2.1 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Playable Core Loop & Live Deploy | 2/2 | Complete    | 2026-08-13 |
 | 2. Menu, Game Modes & Fullscreen | 4/4 | In Progress|  |
-| 2.1. Progression Trail & Celebration Polish (INSERTED) | 0/TBD | Not started | - |
+| 2.1. Progression Trail & Celebration Polish (INSERTED) | 0/3 | Planned | - |
 | 3. Sound & Audio Settings | 0/TBD | Not started | - |
 | 4. Session Statistics | 0/TBD | Not started | - |
