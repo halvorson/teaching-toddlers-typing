@@ -166,8 +166,8 @@ export function speakTarget(character: string): void {
     utterance.lang = document.documentElement.lang || 'en-US'
     const langPrefix = utterance.lang.slice(0, 2).toLowerCase()
     const voice =
-      cachedVoices.find((candidate) => candidate.default) ??
-      cachedVoices.find((candidate) => candidate.lang.toLowerCase().startsWith(langPrefix))
+      cachedVoices.find((candidate) => candidate.lang.toLowerCase().startsWith(langPrefix)) ??
+      cachedVoices.find((candidate) => candidate.default)
     if (voice) {
       utterance.voice = voice
     }
