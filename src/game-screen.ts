@@ -5,7 +5,7 @@
  */
 
 import { DIGITS, LETTERS, acceptableCodes, nextInSequence, pickRandom, renderTarget } from './game'
-import { celebrate, celebrateAlphabetComplete } from './celebrate'
+import { cancelPendingCelebration, celebrate, celebrateAlphabetComplete } from './celebrate'
 import { addTrailStar, clearTrail, mountTrailLayer, unmountTrailLayer } from './trail'
 import { readSettings } from './settings-store'
 
@@ -120,6 +120,7 @@ export function unmountGameScreen(): void {
   }
   pendingCelebrationTimers.forEach((id) => clearTimeout(id))
   pendingCelebrationTimers = []
+  cancelPendingCelebration()
   if (mountedContainer) {
     mountedContainer.replaceChildren()
     mountedContainer = null
