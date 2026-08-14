@@ -79,6 +79,7 @@ Recent decisions affecting current work:
 - [Phase 01-02]: renderTarget re-triggers the opacity crossfade via opacity-dip-to-0/textContent-swap/reflow/opacity-restore, reusing Plan 01's existing transition rule
 - [Phase 01-02]: correct-pulse and incorrect-flash animations both restart via remove-class/force-reflow/re-add-class, since re-adding an already-present class does not replay a CSS animation
 - [Phase 01]: Post-verification, discovered the child's real name in 11 tracked planning/doc files in the now-public repo. Redacted to a generic placeholder and scrubbed from all git history via `git filter-repo --replace-text` + force-push. Going forward: never put the child's real name in any tracked file (see PROJECT.md Context note).
+- [Phase 3.1 planning]: "Keyboard Quest" was NEVER the project's real name — it's a stale planning-doc placeholder that crept into `CLAUDE.md`/`PROJECT.md` headers. The actual product name is "Teaching Toddlers Typing" (already correct in the repo name and browser tab title). DOCS-01 (Phase 3.1) corrects `CLAUDE.md`/`PROJECT.md`; ROADMAP.md/REQUIREMENTS.md headers were fixed immediately since they were already being edited this session.
 
 ### Pending Todos
 
@@ -91,6 +92,9 @@ None yet.
 ### Roadmap Evolution
 
 - Phase 2.1 inserted after Phase 2: Progression Trail & Celebration Polish — ambient star trail on correct matches + viewport-scaled/bigger confetti, per user feedback while Phase 2 was in flight (URGENT)
+- Phase 3.1 inserted after Phase 3 (originally created as "4.1" after Phase 4, then moved ahead of Phase 4 per explicit user request — bugfixes wanted ASAP, ahead of net-new Statistics work): Bugfix & UX Polish — TTS "Capital" prefix, missing menu background motion, invisible star trail, left-aligned menu with title, "Teaching Toddlers Typing" branding correction, per user feedback while playing the deployed Phase 2/2.1/3 build (URGENT)
+- Phase 4.1 inserted after Phase 4 (renumbered from "4.2" when 3.1 moved): Feature Enhancements — 3-state sound control, Quit reconsideration, toggleable fullscreen, per same feedback round; depends on Phase 3.1
+- Phase 4.2 inserted after Phase 4.1 (renumbered from "4.3" when 3.1 moved): Mobile Support — virtual-keyboard trigger, on-screen back control, per same feedback round; isolated from 4.1 due to higher technical uncertainty (touch/virtual-keyboard event handling has no prior precedent in this codebase); depends on Phase 3.1
 
 ## Deferred Verification
 

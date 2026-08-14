@@ -1,4 +1,4 @@
-# Requirements: Keyboard Quest
+# Requirements: Teaching Toddlers Typing
 
 **Defined:** 2026-08-12
 **Core Value:** Every correct physical key press produces an immediate, delightful, low-stakes celebration — that instant feedback loop is what teaches the letter/key association and keeps a toddler engaged.
@@ -19,6 +19,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [ ] **AUDIO-01**: A correct match plays a short celebratory chime (when sound is enabled)
 - [ ] **AUDIO-02**: A correct match optionally speaks the target letter/number name aloud (when sound is enabled)
+- [ ] **AUDIO-03**: Spoken letters say just the letter name ("E"), never "Capital E" or any other prefix
 
 ### Game Modes
 
@@ -32,12 +33,16 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **FULL-01**: Starting any game mode automatically enters fullscreen
 - [ ] **FULL-02**: Leaving a game mode (Quit / navigating back) automatically exits fullscreen
 - [ ] **FULL-03**: An unexpected fullscreen exit (Escape, OS gesture) gracefully resyncs the UI instead of breaking
+- [ ] **FULL-04**: A Settings toggle controls whether starting a mode auto-enters fullscreen, defaulting to on (matching today's behavior)
 
 ### Menu
 
 - [ ] **MENU-01**: Home screen shows a vertical menu: Letters, Numbers, Alphabet, Statistics, Settings, Quit
 - [ ] **MENU-02**: Menu uses a dark, moody, illustrated/gradient background (Slay-the-Spire-inspired)
 - [ ] **MENU-03**: Quit exits fullscreen and returns to the home menu
+- [ ] **MENU-04**: The home menu's drifting parallax background is visibly rendering (regression fix — built and verified in Phase 2 but not appearing live)
+- [ ] **MENU-05**: The menu list is left-aligned with an on-screen title reading "Teaching Toddlers Typing", Slay-the-Spire-style
+- [ ] **MENU-06**: Quit's behavior is reconsidered through discussion and either redesigned or removed
 
 ### Statistics
 
@@ -51,6 +56,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [ ] **SET-01**: Settings screen has a toggle to enable/disable sound (chime + spoken letter)
 - [ ] **SET-02**: Settings screen provides access to reset stats
+- [ ] **SET-03**: Settings' sound control is 3-state — Off / Chime / Spoken letter — replacing the binary on/off toggle, still persisted
 
 ### Sharing
 
@@ -65,8 +71,18 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [ ] **TRAIL-01**: A correct match adds a subtle star to a persistent ambient background trail — decorative only, no numbers or stats shown — that stays visible across the play session
 - [ ] **TRAIL-02**: A Settings toggle controls whether the trail resets on an incorrect key press, defaulting to off (trail persists through mistakes)
+- [ ] **TRAIL-03**: The star trail is visibly rendering during gameplay after correct matches (regression fix — built and verified in Phase 2.1 but not appearing live)
 - [ ] **CELEB-01**: The correct-match celebration burst scales relative to viewport/fullscreen size so it reads clearly on high-resolution displays, not just small windows
 - [ ] **CELEB-02**: The correct-match celebration burst travels further and covers more area (bigger explosion / longer drop) while keeping the same animation speed/timing
+
+### Documentation & Branding
+
+- [ ] **DOCS-01**: `.claude/CLAUDE.md` and `.planning/PROJECT.md` consistently refer to the project as "Teaching Toddlers Typing" — "Keyboard Quest" does not appear as the product name anywhere
+
+### Mobile Support
+
+- [ ] **MOBILE-01**: A subtly-shaded icon in the top-right corner of gameplay screens summons the device's on-screen/virtual keyboard on mobile
+- [ ] **MOBILE-02**: Letters, Numbers, and Alphabet mode screens each have a visible on-screen back control that returns to the home menu, alongside existing Escape support
 
 ## v2 Requirements
 
@@ -129,11 +145,21 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TRAIL-02 | Phase 2.1 | Pending |
 | CELEB-01 | Phase 2.1 | Pending |
 | CELEB-02 | Phase 2.1 | Pending |
+| AUDIO-03 | Phase 3.1 | Pending |
+| MENU-04 | Phase 3.1 | Pending |
+| TRAIL-03 | Phase 3.1 | Pending |
+| MENU-05 | Phase 3.1 | Pending |
+| DOCS-01 | Phase 3.1 | Pending |
+| SET-03 | Phase 4.1 | Pending |
+| MENU-06 | Phase 4.1 | Pending |
+| FULL-04 | Phase 4.1 | Pending |
+| MOBILE-01 | Phase 4.2 | Pending |
+| MOBILE-02 | Phase 4.2 | Pending |
 
 **Coverage:**
 
-- v1 requirements: 31 total
-- Mapped to phases: 31
+- v1 requirements: 44 total
+- Mapped to phases: 44
 - Unmapped: 0 ✓
 
 ---
