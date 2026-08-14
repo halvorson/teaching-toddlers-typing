@@ -1,10 +1,15 @@
 /**
- * Settings screen (TRAIL-02): a windowed panel over the same drifting
- * parallax background the home menu uses, with exactly one control — the
- * "Reset trail on mistake" toggle. Mirrors game-screen.ts's idempotent
+ * Settings screen (TRAIL-02, SET-01): a windowed panel over the same
+ * drifting parallax background the home menu uses, with two controls —
+ * "Reset trail on mistake" and "Sound". Mirrors game-screen.ts's idempotent
  * mount-calls-its-own-unmount lifecycle and menu.ts's
  * document.createElement + textContent construction idiom; no markup
- * assignment is used anywhere in this module (T-02.1-08).
+ * assignment is used anywhere in this module (T-02.1-08). Both toggles share
+ * one delegated click listener, distinguished by a `dataset.setting` value
+ * on each switch button — the handler branches on it explicitly rather than
+ * using it as a computed object key (T-03-03), and every write merges the
+ * current persisted record first so flipping one toggle can never clobber
+ * the other's value (T-03's merge-write fix).
  */
 
 import { readSettings, writeSettings, type AppSettings } from './settings-store'
@@ -48,6 +53,7 @@ export function mountSettingsScreen(container: HTMLElement, onBack: () => void):
   toggleSwitch.setAttribute('role', 'switch')
   toggleSwitch.setAttribute('aria-label', 'Reset trail on mistake')
   toggleSwitch.setAttribute('aria-checked', String(readSettings().resetTrailOnMistake))
+  toggleSwitch.dataset.setting = 'resetTrailOnMistake'
 
   const thumb = document.createElement('span')
   thumb.className = 'toggle-switch__thumb'
@@ -56,9 +62,32 @@ export function mountSettingsScreen(container: HTMLElement, onBack: () => void):
   toggleRow.appendChild(toggleLabel)
   toggleRow.appendChild(toggleSwitch)
 
+  const soundRow = document.createElement('div')
+  soundRow.className = 'toggle-row'
+
+  const soundLabel = document.createElement('span')
+  soundLabel.className = 'toggle-row__label'
+  soundLabel.textContent = 'Sound'
+
+  const soundSwitch = document.createElement('button')
+  soundSwitch.type = 'button'
+  soundSwitch.className = 'toggle-switch'
+  soundSwitch.setAttribute('role', 'switch')
+  soundSwitch.setAttribute('aria-label', 'Sound')
+  soundSwitch.setAttribute('aria-checked', String(readSettings().soundEnabled))
+  soundSwitch.dataset.setting = 'soundEnabled'
+
+  const soundThumb = document.createElement('span')
+  soundThumb.className = 'toggle-switch__thumb'
+  soundSwitch.appendChild(soundThumb)
+
+  soundRow.appendChild(soundLabel)
+  soundRow.appendChild(soundSwitch)
+
   panel.appendChild(back)
   panel.appendChild(title)
   panel.appendChild(toggleRow)
+  panel.appendChild(soundRow)
   container.appendChild(panel)
 
   const handleClick = (event: MouseEvent): void => {
@@ -68,7 +97,11 @@ export function mountSettingsScreen(container: HTMLElement, onBack: () => void):
       const current = toggle.getAttribute('aria-checked') === 'true'
       const next = !current
       toggle.setAttribute('aria-checked', String(next))
-      writeSettings({ version: 1, resetTrailOnMistake: next } satisfies AppSettings)
+      if (toggle.dataset.setting === 'soundEnabled') {
+        writeSettings({ ...readSettings(), soundEnabled: next } satisfies AppSettings)
+      } else {
+        writeSettings({ ...readSettings(), resetTrailOnMistake: next } satisfies AppSettings)
+      }
       return
     }
 

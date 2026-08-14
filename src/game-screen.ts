@@ -8,6 +8,7 @@ import { DIGITS, LETTERS, acceptableCodes, nextInSequence, pickRandom, renderTar
 import { cancelPendingCelebration, celebrate, celebrateAlphabetComplete } from './celebrate'
 import { addTrailStar, clearTrail, mountTrailLayer, unmountTrailLayer } from './trail'
 import { readSettings } from './settings-store'
+import { playChime, speakTarget } from './audio'
 
 /** The three playable modes. Declared here (not in game.ts) because the
  * game screen is the module that owns "what a mode is" from the player's
@@ -73,6 +74,12 @@ export function mountGameScreen(container: HTMLElement, mode: GameMode, onQuit: 
     }
 
     if (currentTarget !== null && acceptableCodes(currentTarget, mode).includes(event.code)) {
+      // Captured before selectNext reassigns currentTarget below, so the
+      // speech call announces the character that was just matched, not the
+      // newly-selected one — the same trap the Z-completion comment below
+      // already warns about for MODE-04.
+      const matched = currentTarget
+
       // The Z-completion test must run against the target being LEFT, before
       // selectNext advances it — nextInSequence wraps unconditionally, so by
       // the time selectNext has returned, currentTarget is already 'A' and
@@ -91,6 +98,8 @@ export function mountGameScreen(container: HTMLElement, mode: GameMode, onQuit: 
       void target.offsetWidth
       target.classList.add('correct-pulse')
       addTrailStar()
+      playChime()
+      speakTarget(matched)
     } else {
       // Read fresh on every wrong key press (not cached at mount) so
       // flipping the toggle in Settings and returning to a mode takes

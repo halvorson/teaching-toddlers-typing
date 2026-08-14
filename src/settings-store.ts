@@ -6,7 +6,10 @@
  * shape-checked before any field is trusted (ASVS V5, T-02.1-07) and every
  * write silently degrades to an in-memory-only value for the session on
  * failure, mirroring clipboard.ts's and celebrate.ts's established
- * "decorative and utility failures fail silently" precedent.
+ * "decorative and utility failures fail silently" precedent. Phase 3's sound
+ * toggle (`soundEnabled`) is resolved with its own per-field `typeof` default
+ * rather than folded into the all-or-nothing shape check, so a record
+ * persisted before this field existed still loads cleanly.
  */
 
 const STORAGE_KEY = 'keyboard-quest-settings'
@@ -14,15 +17,19 @@ const STORAGE_KEY = 'keyboard-quest-settings'
 export interface AppSettings {
   version: 1
   resetTrailOnMistake: boolean
+  soundEnabled: boolean
 }
 
-const DEFAULT_SETTINGS: AppSettings = { version: 1, resetTrailOnMistake: false }
+const DEFAULT_SETTINGS: AppSettings = { version: 1, resetTrailOnMistake: false, soundEnabled: true }
 
 /**
  * Reads and shape-checks the persisted settings record. A missing key, a
- * `JSON.parse` failure, a wrong version, or a non-boolean field all resolve
- * to `DEFAULT_SETTINGS` rather than throwing or coercing a hand-edited or
- * corrupted value into unexpected behaviour.
+ * `JSON.parse` failure, a wrong version, or a non-boolean `resetTrailOnMistake`
+ * field all resolve to `DEFAULT_SETTINGS` rather than throwing or coercing a
+ * hand-edited or corrupted value into unexpected behaviour. `soundEnabled` is
+ * resolved separately below on its own `typeof` check so a record persisted
+ * before Phase 3 (with no `soundEnabled` field at all) still loads cleanly
+ * instead of being invalidated wholesale.
  */
 export function readSettings(): AppSettings {
   try {
@@ -35,7 +42,8 @@ export function readSettings(): AppSettings {
       return { ...DEFAULT_SETTINGS }
     }
 
-    return { version: 1, resetTrailOnMistake: parsed.resetTrailOnMistake as boolean }
+    const soundEnabled = typeof parsed.soundEnabled === 'boolean' ? parsed.soundEnabled : DEFAULT_SETTINGS.soundEnabled
+    return { version: 1, resetTrailOnMistake: parsed.resetTrailOnMistake as boolean, soundEnabled }
   } catch {
     return { ...DEFAULT_SETTINGS }
   }
