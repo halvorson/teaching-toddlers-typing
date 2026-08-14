@@ -2,17 +2,17 @@
 gsd_state_version: 1.0
 current_phase: 03.1
 current_phase_name: Bugfix & UX Polish
-status: executing
-stopped_at: Completed 03.1-01-PLAN.md
-last_updated: "2026-08-14T19:42:40.235Z"
+status: verifying
+stopped_at: Completed 03.1-02-PLAN.md
+last_updated: "2026-08-14T19:45:53.556Z"
 last_activity: 2026-08-14
 last_activity_desc: Phase 03.1 execution started
-state_head: 83493a9f2547cf182b3a3cdfe8ae18191dada7db
+state_head: 4d4230ac332dd32e35480eba15b53a67f1be8a59
 progress:
   total_phases: 8
   completed_phases: 1
   total_plans: 12
-  completed_plans: 11
+  completed_plans: 12
   percent: 13
 ---
 
@@ -29,10 +29,10 @@ See: .planning/PROJECT.md (updated 2026-08-13)
 
 Phase: 03.1 (Bugfix & UX Polish) — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-08-14 — Phase 03.1 execution started
 
-Progress: [█████████░] 92% (1/4 phases complete)
+Progress: [██████████] 100% (1/4 phases complete)
 
 ## Performance Metrics
 
@@ -61,6 +61,7 @@ Progress: [█████████░] 92% (1/4 phases complete)
 | Phase 01 P01 | 11min | 2 tasks | 11 files |
 | Phase 01 P02 | 4min | 3 tasks | 5 files |
 | Phase 03.1 P01 | 6min | 3 tasks | 2 files |
+| Phase 03.1 P02 | 5min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -83,6 +84,8 @@ Recent decisions affecting current work:
 - [Phase 3.1 planning]: "Keyboard Quest" was NEVER the project's real name — it's a stale planning-doc placeholder that crept into `CLAUDE.md`/`PROJECT.md` headers. The actual product name is "Teaching Toddlers Typing" (already correct in the repo name and browser tab title). DOCS-01 (Phase 3.1) corrects `CLAUDE.md`/`PROJECT.md`; ROADMAP.md/REQUIREMENTS.md headers were fixed immediately since they were already being edited this session.
 - [Phase 3.1-01]: Single .home-menu wrapper (title+nav) chosen so both always share one left-margin source, per plan's single-wrapper design
 - [Phase 3.1-01]: color-mix() cascade-fallback pairing (plain var() declaration immediately before color-mix()) established as the defensive pattern for MENU-04/TRAIL-03; available as precedent for other color-mix() uses in style.css
+- [Phase 3.1-02]: LETTER_WORDS lookup table added to src/audio.ts mirroring DIGIT_WORDS pattern, fixing TTS 'Capital E'-style mispronunciation
+- [Phase 3.1-02]: DOCS-01 branding correction completed — 'Keyboard Quest' replaced with 'Teaching Toddlers Typing' in .claude/CLAUDE.md and .planning/PROJECT.md; src/settings-store.ts STORAGE_KEY intentionally left untouched (no migration path)
 
 ### Pending Todos
 
@@ -118,6 +121,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-08-14T19:42:40.056Z
-Stopped at: Completed 03.1-01-PLAN.md
+Last session: 2026-08-14T19:45:53.371Z
+Stopped at: Completed 03.1-02-PLAN.md
 Resume file: None

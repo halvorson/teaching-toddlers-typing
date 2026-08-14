@@ -19,7 +19,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [ ] **AUDIO-01**: A correct match plays a short celebratory chime (when sound is enabled)
 - [ ] **AUDIO-02**: A correct match optionally speaks the target letter/number name aloud (when sound is enabled)
-- [ ] **AUDIO-03**: Spoken letters say just the letter name ("E"), never "Capital E" or any other prefix
+- [x] **AUDIO-03**: Spoken letters say just the letter name ("E"), never "Capital E" or any other prefix
 
 ### Game Modes
 
@@ -77,7 +77,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Documentation & Branding
 
-- [ ] **DOCS-01**: `.claude/CLAUDE.md` and `.planning/PROJECT.md` consistently refer to the project as "Teaching Toddlers Typing" — "Keyboard Quest" does not appear as the product name anywhere
+- [x] **DOCS-01**: `.claude/CLAUDE.md` and `.planning/PROJECT.md` consistently refer to the project as "Teaching Toddlers Typing" — "Keyboard Quest" does not appear as the product name anywhere
 
 ### Mobile Support
 
@@ -145,11 +145,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TRAIL-02 | Phase 2.1 | Pending |
 | CELEB-01 | Phase 2.1 | Pending |
 | CELEB-02 | Phase 2.1 | Pending |
-| AUDIO-03 | Phase 3.1 | Pending |
+| AUDIO-03 | Phase 3.1 | Complete |
 | MENU-04 | Phase 3.1 | Complete |
 | TRAIL-03 | Phase 3.1 | Complete |
 | MENU-05 | Phase 3.1 | Complete |
-| DOCS-01 | Phase 3.1 | Pending |
+| DOCS-01 | Phase 3.1 | Complete |
 | SET-03 | Phase 4.1 | Pending |
 | MENU-06 | Phase 4.1 | Pending |
 | FULL-04 | Phase 4.1 | Pending |
