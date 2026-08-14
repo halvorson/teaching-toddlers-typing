@@ -151,13 +151,13 @@ const DIGIT_WORDS: Readonly<Record<string, string>> = {
  * pronounced.
  */
 const LETTER_WORDS: Readonly<Record<string, string>> = {
-  A: 'Ay',
+  A: 'Ey',
   B: 'Bee',
   C: 'See',
   D: 'Dee',
   E: 'Ee',
   F: 'Eff',
-  G: 'Jee',
+  G: 'Gee',
   H: 'Aitch',
   I: 'Eye',
   J: 'Jay',
