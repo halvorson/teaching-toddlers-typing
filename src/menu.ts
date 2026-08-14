@@ -222,6 +222,8 @@ async function runShare(): Promise<void> {
  */
 export function mountMenu(container: HTMLElement, handlers: MenuHandlers): void {
   mountGeneration++ // invalidate any in-flight runShare() from a prior mount
+  sharePending = false // a stale in-flight call from the previous mount no
+                        // longer blocks Share on this mount
   container.replaceChildren()
 
   const wrapper = document.createElement('div')
@@ -397,6 +399,8 @@ export function mountMenu(container: HTMLElement, handlers: MenuHandlers): void 
  * module-level menu state. */
 export function unmountMenu(): void {
   mountGeneration++ // invalidate any in-flight runShare() from this mount
+  sharePending = false // don't let a stale in-flight call block Share on
+                        // whatever mounts next
   if (mountedNav) {
     if (clickListener) mountedNav.removeEventListener('click', clickListener)
     if (keydownListener) mountedNav.removeEventListener('keydown', keydownListener)
