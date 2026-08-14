@@ -112,6 +112,7 @@ export function mountSettingsScreen(container: HTMLElement, onBack: () => void):
   }
 
   const handleKeydown = (event: KeyboardEvent): void => {
+    if (event.repeat) return
     if (event.key === 'Escape') {
       onBack()
     }
