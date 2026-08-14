@@ -115,6 +115,24 @@ body[data-chrome="game"] #star-trail {
     max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
 }
 
+.home-menu {
+  display: flex;
+  flex-direction: column;
+  margin-left: max(64px, env(safe-area-inset-left));
+  margin-right: auto;
+  row-gap: 32px;
+}
+
+.home-menu__title {
+  margin: 0;
+  max-width: 480px;
+  font-size: clamp(32px, 6vh, 48px);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-fg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+}
+
 /* Home menu */
 
 .menu {

@@ -210,6 +210,14 @@ export function mountMenu(container: HTMLElement, handlers: MenuHandlers): void 
   mountGeneration++ // invalidate any in-flight runShare() from a prior mount
   container.replaceChildren()
 
+  const wrapper = document.createElement('div')
+  wrapper.className = 'home-menu'
+
+  const title = document.createElement('h1')
+  title.className = 'home-menu__title'
+  title.textContent = 'Teaching Toddlers Typing'
+  wrapper.appendChild(title)
+
   const nav = document.createElement('nav')
   nav.className = 'menu'
 
@@ -278,7 +286,8 @@ export function mountMenu(container: HTMLElement, handlers: MenuHandlers): void 
   nav.appendChild(groupPrimary)
   nav.appendChild(groupUtility)
   nav.appendChild(groupQuit)
-  container.appendChild(nav)
+  wrapper.appendChild(nav)
+  container.appendChild(wrapper)
 
   const handleClick = (event: MouseEvent): void => {
     const target = event.target as HTMLElement
