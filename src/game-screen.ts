@@ -6,6 +6,7 @@
 
 import { DIGITS, LETTERS, acceptableCodes, nextInSequence, pickRandom, renderTarget } from './game'
 import { celebrate, celebrateAlphabetComplete } from './celebrate'
+import { addTrailStar, mountTrailLayer, unmountTrailLayer } from './trail'
 
 /** The three playable modes. Declared here (not in game.ts) because the
  * game screen is the module that owns "what a mode is" from the player's
@@ -50,6 +51,7 @@ function selectNext(mode: GameMode, current: string | null): string {
  */
 export function mountGameScreen(container: HTMLElement, mode: GameMode, onQuit: () => void): void {
   unmountGameScreen()
+  mountTrailLayer()
   container.replaceChildren()
 
   const target = document.createElement('span')
@@ -87,6 +89,7 @@ export function mountGameScreen(container: HTMLElement, mode: GameMode, onQuit: 
       target.classList.remove('correct-pulse')
       void target.offsetWidth
       target.classList.add('correct-pulse')
+      addTrailStar()
     } else {
       container.classList.remove('incorrect-flash')
       void container.offsetWidth
@@ -114,4 +117,5 @@ export function unmountGameScreen(): void {
     mountedContainer = null
   }
   currentTarget = null
+  unmountTrailLayer()
 }

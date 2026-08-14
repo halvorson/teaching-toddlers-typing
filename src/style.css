@@ -18,7 +18,7 @@ body::after {
   content: '';
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: -2;
   pointer-events: none;
   transition: opacity 100ms ease-out;
 }
@@ -60,6 +60,35 @@ body::after {
 body[data-chrome="game"]::before,
 body[data-chrome="game"]::after {
   opacity: 0;
+}
+
+/* Ambient star trail (TRAIL-01) — a dedicated fixed full-viewport layer
+   between the drifting background (-2) and all interactive/text UI (auto,
+   above -1). Shown only during gameplay, the exact inverse of the drifting
+   background's data-chrome suppression above. Purely decorative: no text,
+   no numeric state, ever rendered here. */
+#star-trail {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 100ms ease-out;
+}
+
+body[data-chrome="game"] #star-trail {
+  opacity: 1;
+}
+
+.star-trail__star {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    color-mix(in srgb, var(--color-accent) 70%, transparent) 0%,
+    transparent 70%);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--color-accent) 45%, transparent);
 }
 
 #app {
