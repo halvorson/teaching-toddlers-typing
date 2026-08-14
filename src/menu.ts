@@ -40,6 +40,7 @@ export interface MenuHandlers {
 let clickListener: ((event: MouseEvent) => void) | null = null
 let keydownListener: ((event: KeyboardEvent) => void) | null = null
 let hoverListener: ((event: MouseEvent) => void) | null = null
+let focusInListener: ((event: FocusEvent) => void) | null = null
 let mountedNav: HTMLElement | null = null
 let menuButtons: HTMLButtonElement[] = []
 let focusIndex = 0
@@ -288,12 +289,27 @@ export function mountMenu(container: HTMLElement, handlers: MenuHandlers): void 
     focusRow(index)
   }
 
+  // Native Tab/Shift+Tab moves document.activeElement directly and never
+  // goes through handleKeydown (which only handles Arrow/Home/End), so
+  // without this listener the .focused indicator can permanently desync
+  // from real DOM focus. Delegated on the nav so it covers every button.
+  const handleFocusIn = (event: FocusEvent): void => {
+    const target = event.target as HTMLElement
+    const button = target.closest<HTMLButtonElement>('button[data-row]')
+    if (!button) return
+    const index = menuButtons.indexOf(button)
+    if (index === -1 || index === focusIndex) return
+    focusRow(index)
+  }
+
   clickListener = handleClick
   keydownListener = handleKeydown
   hoverListener = handleHover
+  focusInListener = handleFocusIn
   nav.addEventListener('click', handleClick)
   nav.addEventListener('keydown', handleKeydown)
   nav.addEventListener('mouseover', handleHover)
+  nav.addEventListener('focusin', handleFocusIn)
   mountedNav = nav
 
   focusRow(0)
@@ -306,10 +322,12 @@ export function unmountMenu(): void {
     if (clickListener) mountedNav.removeEventListener('click', clickListener)
     if (keydownListener) mountedNav.removeEventListener('keydown', keydownListener)
     if (hoverListener) mountedNav.removeEventListener('mouseover', hoverListener)
+    if (focusInListener) mountedNav.removeEventListener('focusin', focusInListener)
   }
   clickListener = null
   keydownListener = null
   hoverListener = null
+  focusInListener = null
   if (mountedNav?.parentElement) {
     mountedNav.parentElement.replaceChildren()
   }
