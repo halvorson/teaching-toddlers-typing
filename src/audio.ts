@@ -4,9 +4,10 @@
  * conventions apply to every function in this module: one lazily created,
  * reused `AudioContext` (browsers cap how many live contexts a page may
  * hold, so a per-keypress context would exhaust that cap within a minute of
- * toddler play); `readSettings().soundEnabled` re-read at the top of every
- * exported function rather than cached, so flipping the Settings toggle
- * takes effect on the very next correct match with no reload; and every
+ * toddler play); the persisted sound-enabled setting re-read fresh at the
+ * top of every exported function rather than cached, so flipping the
+ * Settings toggle takes effect on the very next correct match with no
+ * reload; and every
  * browser-API call wrapped in a comment-only `catch`, because audio here is
  * decorative and the game must keep working without it, matching
  * clipboard.ts's and celebrate.ts's silent-degrade precedent. `audio.ts`
@@ -14,6 +15,11 @@
  * and Web Speech are browser globals, not bundled dependencies) or its
  * reduced-motion media-query guard (motion and audio are separate
  * accessibility axes — sound is gated solely by `soundEnabled`).
+ *
+ * Two independent entry points: `playChime()` and `speakTarget()`. They
+ * share this file and nothing else — no shared queue, no shared state, no
+ * sequencing, no awaiting each other — so a failure in one can never
+ * suppress the other.
  */
 
 import { readSettings } from './settings-store'
@@ -83,5 +89,91 @@ export function playChime(): void {
     playTone(ctx, 987.77, now + 0.085, 0.2)
   } catch {
     // Audio is decorative — swallow failures so the core game keeps working.
+  }
+}
+
+let cachedVoices: SpeechSynthesisVoice[] = []
+
+/**
+ * Primes `cachedVoices` from both the synchronous and event-driven paths,
+ * since neither is sufficient alone: Chrome loads voices asynchronously and
+ * returns an empty array from the synchronous call, while Firefox and
+ * Safari load them synchronously and may never fire `voiceschanged` at all.
+ * Called once at module scope — `audio.ts` is statically imported by
+ * game-screen.ts, so this runs at page load with no extra bootstrap wiring.
+ */
+function primeVoices(): void {
+  try {
+    if (!window.speechSynthesis) return
+    cachedVoices = window.speechSynthesis.getVoices()
+    window.speechSynthesis.addEventListener(
+      'voiceschanged',
+      () => {
+        cachedVoices = window.speechSynthesis.getVoices()
+      },
+      { once: true },
+    )
+  } catch {
+    // Speech is decorative — swallow failures so the core game keeps working.
+  }
+}
+
+primeVoices()
+
+/**
+ * Digit → English word lookup, keyed on game.ts's DIGITS pool. A bare digit
+ * glyph is not a pronunciation the Speech API guarantees across voices —
+ * some read it as the number, some spell or inflect it oddly — so this
+ * removes the ambiguity. Declared here, not in game.ts: game.ts owns
+ * character pools, audio.ts owns how a matched character is pronounced.
+ * Uppercase A-Z needs no mapping: English voices read a bare capital letter
+ * as its letter name.
+ */
+const DIGIT_WORDS: Readonly<Record<string, string>> = {
+  '0': 'zero',
+  '1': 'one',
+  '2': 'two',
+  '3': 'three',
+  '4': 'four',
+  '5': 'five',
+  '6': 'six',
+  '7': 'seven',
+  '8': 'eight',
+  '9': 'nine',
+}
+
+/**
+ * Speaks `character` aloud — the letter name in Letters/Alphabet modes, the
+ * digit's English word in Numbers mode — through a freshly constructed
+ * utterance, gated by its own independent `soundEnabled` read (never a value
+ * shared with `playChime()`).
+ */
+export function speakTarget(character: string): void {
+  if (!readSettings().soundEnabled) return
+  try {
+    const spoken = DIGIT_WORDS[character] ?? character
+    if (!window.speechSynthesis) return
+
+    // Cancel before every new utterance so a fast run of correct matches
+    // never queues speech that falls behind the character on screen. Note:
+    // on some browser/OS combinations, cancel() immediately followed by
+    // speak() can silently drop the new utterance — a known, still-open
+    // browser quirk already absorbed by this module's silent-degrade
+    // contract. Not a bug to chase, and not a reason to add a delay here.
+    window.speechSynthesis.cancel()
+
+    const utterance = new SpeechSynthesisUtterance(spoken)
+    utterance.lang = document.documentElement.lang || 'en-US'
+    const langPrefix = utterance.lang.slice(0, 2).toLowerCase()
+    const voice =
+      cachedVoices.find((candidate) => candidate.default) ??
+      cachedVoices.find((candidate) => candidate.lang.toLowerCase().startsWith(langPrefix))
+    if (voice) {
+      utterance.voice = voice
+    }
+
+    window.speechSynthesis.speak(utterance)
+  } catch {
+    // Speech is decorative — swallow failures so the core game keeps working.
   }
 }
