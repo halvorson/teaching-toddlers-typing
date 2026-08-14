@@ -221,9 +221,9 @@ async function runShare(): Promise<void> {
  * so keyboard navigation works immediately with no initial Tab press.
  */
 export function mountMenu(container: HTMLElement, handlers: MenuHandlers): void {
-  mountGeneration++ // invalidate any in-flight runShare() from a prior mount
-  sharePending = false // a stale in-flight call from the previous mount no
-                        // longer blocks Share on this mount
+  unmountMenu() // idempotent: mirrors mountGameScreen()/mountSettingsScreen(),
+                // and clears any stale copiedTimeoutId/shareFallbackEl left
+                // over from a prior mount that skipped unmountMenu()
   container.replaceChildren()
 
   const wrapper = document.createElement('div')
