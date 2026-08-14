@@ -42,8 +42,14 @@ function selectNext(mode: GameMode, current: string | null): string {
  * Mounts the gameplay screen into `container`: clears it, creates the
  * `#target` span, picks and renders the first target, and registers the
  * single keydown listener that drives matching, celebration and quitting.
+ * Defensively unmounts any prior mount first (idempotent — a no-op if
+ * nothing was mounted) so this module never depends solely on callers
+ * remembering to unmount before mounting again; without this, a second
+ * call would leak a duplicate document-level keydown listener and process
+ * every keypress twice.
  */
 export function mountGameScreen(container: HTMLElement, mode: GameMode, onQuit: () => void): void {
+  unmountGameScreen()
   container.replaceChildren()
 
   const target = document.createElement('span')
