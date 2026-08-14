@@ -50,6 +50,12 @@ let shareButtonEl: HTMLButtonElement | null = null
 let copiedTimeoutId: number | null = null
 let shareFallbackEl: HTMLDivElement | null = null
 
+// Incremented on every mountMenu()/unmountMenu() call so an in-flight
+// runShare() promise from a previous mount can detect it's stale (the menu
+// was remounted or torn down while its shareCurrentUrl() await was
+// pending) and bail out instead of mutating the new mount's Share row.
+let mountGeneration = 0
+
 function isGameplayRow(row: MenuRow): row is GameMode {
   return (GAMEPLAY_ROWS as readonly string[]).includes(row)
 }
@@ -150,7 +156,12 @@ function renderManualFallback(): void {
  * microtask boundary before this line.
  */
 async function runShare(): Promise<void> {
+  const myGeneration = mountGeneration
   const result = await shareCurrentUrl()
+  // Bail out if the menu was remounted (or unmounted) while the copy chain
+  // was pending — shareLabelEl/shareButtonEl now point at a different
+  // mount's elements, and this stale result must not touch them.
+  if (myGeneration !== mountGeneration) return
   if (result !== 'manual-required') {
     showCopiedFeedback()
     return
@@ -164,6 +175,7 @@ async function runShare(): Promise<void> {
  * so keyboard navigation works immediately with no initial Tab press.
  */
 export function mountMenu(container: HTMLElement, handlers: MenuHandlers): void {
+  mountGeneration++ // invalidate any in-flight runShare() from a prior mount
   container.replaceChildren()
 
   const nav = document.createElement('nav')
@@ -321,6 +333,7 @@ export function mountMenu(container: HTMLElement, handlers: MenuHandlers): void 
 /** Removes the delegated click/keydown/hover listeners and resets all
  * module-level menu state. */
 export function unmountMenu(): void {
+  mountGeneration++ // invalidate any in-flight runShare() from this mount
   if (mountedNav) {
     if (clickListener) mountedNav.removeEventListener('click', clickListener)
     if (keydownListener) mountedNav.removeEventListener('keydown', keydownListener)
