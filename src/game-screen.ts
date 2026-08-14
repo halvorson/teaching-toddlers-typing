@@ -6,7 +6,8 @@
 
 import { DIGITS, LETTERS, acceptableCodes, nextInSequence, pickRandom, renderTarget } from './game'
 import { celebrate, celebrateAlphabetComplete } from './celebrate'
-import { addTrailStar, mountTrailLayer, unmountTrailLayer } from './trail'
+import { addTrailStar, clearTrail, mountTrailLayer, unmountTrailLayer } from './trail'
+import { readSettings } from './settings-store'
 
 /** The three playable modes. Declared here (not in game.ts) because the
  * game screen is the module that owns "what a mode is" from the player's
@@ -91,6 +92,13 @@ export function mountGameScreen(container: HTMLElement, mode: GameMode, onQuit: 
       target.classList.add('correct-pulse')
       addTrailStar()
     } else {
+      // Read fresh on every wrong key press (not cached at mount) so
+      // flipping the toggle in Settings and returning to a mode takes
+      // effect immediately.
+      if (readSettings().resetTrailOnMistake) {
+        clearTrail()
+      }
+
       container.classList.remove('incorrect-flash')
       void container.offsetWidth
       container.classList.add('incorrect-flash')
