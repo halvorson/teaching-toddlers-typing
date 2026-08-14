@@ -28,15 +28,15 @@ body::before {
     radial-gradient(circle at 30% 30%, var(--color-surface), transparent 60%),
     radial-gradient(circle at 70% 70%, var(--color-surface), transparent 60%);
   background:
-    radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--color-surface) 10%, transparent), transparent 60%),
-    radial-gradient(circle at 70% 70%, color-mix(in srgb, var(--color-surface) 10%, transparent), transparent 60%);
+    radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--color-surface) 24%, transparent), transparent 60%),
+    radial-gradient(circle at 70% 70%, color-mix(in srgb, var(--color-surface) 24%, transparent), transparent 60%);
   background-size: 150% 150%;
   animation: drift-a 40s ease-in-out infinite alternate;
 }
 
 body::after {
   background: radial-gradient(circle at 50% 40%, var(--color-accent), transparent 55%);
-  background: radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--color-accent) 6%, transparent), transparent 55%);
+  background: radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--color-accent) 16%, transparent), transparent 55%);
   animation: drift-b 65s ease-in-out infinite alternate;
 }
 
@@ -86,15 +86,15 @@ body[data-chrome="game"] #star-trail {
 
 .star-trail__star {
   position: absolute;
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
   background: radial-gradient(circle,
-    color-mix(in srgb, var(--color-accent) 70%, transparent) 0%,
+    color-mix(in srgb, var(--color-accent) 90%, transparent) 0%,
     transparent 70%);
-  box-shadow: 0 0 6px var(--color-accent);
-  box-shadow: 0 0 6px color-mix(in srgb, var(--color-accent) 45%, transparent);
+  box-shadow: 0 0 12px var(--color-accent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--color-accent) 75%, transparent);
   opacity: 0;
   transform: scale(0.3);
   animation: star-pop-in 300ms ease-out forwards;
