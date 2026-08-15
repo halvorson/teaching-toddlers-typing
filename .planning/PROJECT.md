@@ -66,6 +66,8 @@ Every correct physical key press produces an immediate, delightful, low-stakes c
 | `KeyboardEvent.code` (physical key) matching, never the character property | Layout/Shift/Caps-Lock independent — matches by physical key position, not typed character | ✓ Confirmed — Phase 1 |
 | Public GitHub repo, Claude creates+pushes via authenticated `gh` CLI | Required for free-tier GitHub Pages via the Actions build type; simplest path to a shareable link | ✓ Confirmed — Phase 1 |
 | Deploy workflow: non-cancelling `concurrency` group (`cancel-in-progress: false`) | An in-flight production deploy is never aborted by a following push — most-recently-completed deploy always wins | ✓ Confirmed — Phase 1 |
+| Never set `background` directly on `<html>` alongside negative-`z-index` fixed decorative layers | Discovered in Phase 3.1: an `html`-level background gets propagated as the browser's canvas background, which paints above `position:fixed`+negative-`z-index` descendants regardless of their own z-index — masking them entirely. Scope page background to `body` only. | ✓ Confirmed — Phase 3.1 |
+| Full-viewport ambient effects animate color/opacity/filter, never `background-size`+`transform` | Discovered in Phase 3.1: an oversized (`background-size:150%`), position-drifting background layer produces visible seams at its own edges once large enough of the layer enters the viewport — worse on wide/large screens. A static-position, 100%-sized gradient animating only `filter: hue-rotate()` is seam-proof at any screen size. | ✓ Confirmed — Phase 3.1 |
 
 ## Evolution
 
@@ -85,4 +87,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-08-13 after Phase 1*
+*Last updated: 2026-08-14 after Phase 3.1*
