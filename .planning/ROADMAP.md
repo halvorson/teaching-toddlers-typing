@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 2: Menu, Game Modes & Fullscreen** - Full menu, all three modes, fullscreen play, and share link
 - [ ] **Phase 2.1: Progression Trail & Celebration Polish (INSERTED)** - Ambient star trail on correct matches, bigger/viewport-scaled confetti
 - [ ] **Phase 3: Sound & Audio Settings** - Correct matches chime and speak, with a sound toggle
-- [ ] **Phase 3.1: Bugfix & UX Polish (INSERTED)** - Fix TTS "Capital" prefix, restore missing menu background motion, fix invisible star trail, left-aligned menu with title, correct project branding
+- [x] **Phase 3.1: Bugfix & UX Polish (INSERTED)** - Fix TTS "Capital" prefix, restore missing menu background motion, fix invisible star trail, left-aligned menu with title, correct project branding (completed 2026-08-14)
 - [ ] **Phase 4: Session Statistics** - Parents can review and reset accuracy, speed, and reaction-time stats
 - [ ] **Phase 4.1: Feature Enhancements (INSERTED)** - 3-state sound control (Off/Chime/Letter), reconsider Quit, toggleable fullscreen
 - [ ] **Phase 4.2: Mobile Support (INSERTED)** - On-screen virtual-keyboard trigger, on-screen back control for gameplay screens
@@ -206,7 +206,7 @@ Phases execute in numeric order: 1 → 2 → 2.1 → 3 → 3.1 → 4 → 4.1 →
 | 2. Menu, Game Modes & Fullscreen | 4/4 | In Progress|  |
 | 2.1. Progression Trail & Celebration Polish (INSERTED) | 3/3 | In Progress|  |
 | 3. Sound & Audio Settings | 1/1 | In Progress|  |
-| 3.1. Bugfix & UX Polish (INSERTED) | 2/2 | In Progress|  |
+| 3.1. Bugfix & UX Polish (INSERTED) | 2/2 | Complete    | 2026-08-14 |
 | 4. Session Statistics | 0/TBD | Not started | - |
 | 4.1. Feature Enhancements (INSERTED) | 0/TBD | Not started | - |
 | 4.2. Mobile Support (INSERTED) | 0/TBD | Not started | - |

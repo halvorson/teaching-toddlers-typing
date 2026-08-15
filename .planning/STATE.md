@@ -1,19 +1,19 @@
 ---
 gsd_state_version: 1.0
-current_phase: 03.1
-current_phase_name: Bugfix & UX Polish
-status: verifying
+current_phase: 04
+current_phase_name: Session Statistics
+status: planning
 stopped_at: Completed 03.1-02-PLAN.md
-last_updated: "2026-08-14T19:45:53.556Z"
+last_updated: "2026-08-15T00:03:58.184Z"
 last_activity: 2026-08-14
 last_activity_desc: Phase 03.1 execution started
-state_head: 4d4230ac332dd32e35480eba15b53a67f1be8a59
+state_head: 8a76fbfe6d802e276f8ae377cdeb48f8df6e13b4
 progress:
   total_phases: 8
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 12
   completed_plans: 12
-  percent: 13
+  percent: 25
 ---
 
 # Project State
@@ -23,14 +23,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-08-13)
 
 **Core value:** Every correct physical key press produces an immediate, delightful, low-stakes celebration — that instant feedback loop is what teaches the letter/key association and keeps a toddler engaged.
-**Current focus:** Phase 03.1 — Bugfix & UX Polish
+**Current focus:** Phase 04 — Session Statistics
 
 ## Current Position
 
-Phase: 03.1 (Bugfix & UX Polish) — EXECUTING
-Plan: 2 of 2
-Status: Phase complete — ready for verification
-Last activity: 2026-08-14 — Phase 03.1 execution started
+Phase: 04 — Session Statistics
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-08-14 — Phase 03.1 complete, transitioned to Phase 04
 
 Progress: [██████████] 100% (1/4 phases complete)
 
@@ -38,7 +38,7 @@ Progress: [██████████] 100% (1/4 phases complete)
 
 **Velocity:**
 
-- Total plans completed: 2
+- Total plans completed: 4
 - Average duration: - min
 - Total execution time: 0 hours
 
@@ -47,6 +47,7 @@ Progress: [██████████] 100% (1/4 phases complete)
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01 | 2 | - | - |
+| 03.1 | 2 | - | - |
 
 **Recent Trend:**
 
@@ -87,6 +88,8 @@ Recent decisions affecting current work:
 - [Phase 3.1-02]: LETTER_WORDS lookup table added to src/audio.ts mirroring DIGIT_WORDS pattern, fixing TTS 'Capital E'-style mispronunciation
 - [Phase 3.1-02]: DOCS-01 branding correction completed — 'Keyboard Quest' replaced with 'Teaching Toddlers Typing' in .claude/CLAUDE.md and .planning/PROJECT.md; src/settings-store.ts STORAGE_KEY intentionally left untouched (no migration path)
 - [Phase 3.1 human verification]: MENU-04/TRAIL-03's real root cause found via live browser inspection (claude-in-chrome) — RESEARCH.md's color-mix() hypothesis was wrong (no browser tool was available during that research session). Actual cause: `index.html`'s inline `html, body { background: #0A0E1B; }` rule caused the browser to propagate that color as the page's canvas background, which paints above `position: fixed` + negative-`z-index` descendants (`body::before/after` at z:-2, `#star-trail` at z:-1) regardless of their own z-index. Fixed (commit `dfbe03d`) by scoping the inline critical-CSS background to `body` only. Confirmed live via toggling html's background on/off against the deployed site, then re-verified via local `npm run preview` before deploy. Pattern to remember: never set `background` directly on `<html>` in a page with negative-z-index fixed decorative layers — scope it to `body` (or a dedicated element) instead.
+- [Phase 3.1 human verification]: after the canvas-masking fix, both drift background and star trail were confirmed rendering but too subtle on a large screen — boosted alpha/glow intensity (commit `765ae2e`). Separately, 2 of 26 LETTER_WORDS entries were mispronounced on the user's Mac + Chrome/Safari voice (A→"I", G→"C"); traced via claude-in-chrome to confirm it was a respelling-accuracy issue, not a lookup bug, and fixed with more TTS-reliable spellings — G "Jee"→"Gee" (real dictionary word), A "Ay"→"Ey" (leans on the reliable "-ey" digraph) — commit `68d9139`.
+- [Phase 3.1 human verification]: user requested extending the drift background to gameplay screens too (previously menu-only by Phase 2 design) — commit `be0d059`. Follow-up requests for "more visible motion" surfaced that the `background-size:150%` + `transform:translate()` drift approach produces hard seams at the oversized layer's edges, worse at wide/large-screen aspect ratios; extending the fade radius only partially helped (commit `8fa7ffa`) before both horizontal and vertical seams reappeared. Redesigned to a static-position, 100%-viewport-sized gradient with `filter: hue-rotate()` as the only animated property (commit `1fe6ef0`) — architecturally seam-proof at any screen size, since a fixed-position box exactly the size of its own viewport can never show an edge. Pattern to remember: prefer animating non-geometric properties (color/opacity/filter) over `background-size`+`transform` tricks for full-viewport ambient effects, to avoid this whole class of seam bug.
 
 ### Pending Todos
 
@@ -122,6 +125,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-08-14T19:45:53.371Z
-Stopped at: Completed 03.1-02-PLAN.md
+Last session: 2026-08-15T00:04:38Z
+Stopped at: Phase 03.1 complete (verified passed after 4 live-site fix rounds), ready to plan Phase 04
 Resume file: None
