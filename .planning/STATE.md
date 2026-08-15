@@ -99,6 +99,7 @@ None yet.
 
 - Phase 2 (fullscreen handling): iOS Safari fullscreen support varies by OS version — validate directly against the family's actual hardware rather than assuming from docs (research flag).
 - Phase 3.1 planning: `check.decision-coverage-plan` gate returned `could-not-parse` (reason: no CONTEXT.md in this project uses the gate's expected `D-NN:` bullet-ID format — confirmed project-wide, not specific to this phase). Manually traced instead: the Menu Title & Left-Alignment answers → 03.1-01-PLAN.md Task 1; the four Claude's-Discretion bugfix items (AUDIO-03/MENU-04/TRAIL-03/DOCS-01) → 03.1-01-PLAN.md Tasks 2-3 and 03.1-02-PLAN.md Tasks 1-2. Proceeded past the gate on that manual verification; verify-phase may re-surface this.
+- PROJECT.md's Requirements Active/Validated checklist has been stale since Phase 1 — Phase 2/2.1/3's shipped features (Numbers/Alphabet modes, fullscreen, menu, sound) were never checked off or moved to Validated. Pre-existing gap, not introduced by Phase 3.1; worth a full pass next time PROJECT.md is touched.
 
 ### Roadmap Evolution
 
