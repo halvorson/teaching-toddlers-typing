@@ -58,6 +58,13 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **SET-02**: Settings screen provides access to reset stats
 - [ ] **SET-03**: Settings' sound control is 3-state — Off / Chime / Spoken letter — replacing the binary on/off toggle, still persisted
 
+### Session Length
+
+- [ ] **SESSION-01**: Settings screen has a "Max # of letters" control that sets a session length cap (number of correct matches), applying to Letters, Numbers, and Alphabet modes
+- [ ] **SESSION-02**: Reaching the cap — or, in Alphabet mode, reaching Z, whichever comes first — ends the session gracefully with the existing bigger (Alphabet-completion-style) celebration, followed by a Game Over/Congrats screen
+- [ ] **SESSION-03**: The correct-match counter resets whenever a mode is (re-)entered
+- [ ] **SESSION-04**: The Game Over/Congrats screen offers a subtle "One more letter" option (a nod to the "one more turn" mechanic) that overrides the cap and continues the session for one more round
+
 ### Sharing
 
 - [ ] **SHARE-01**: Home menu includes a share affordance that copies the current page URL
@@ -104,7 +111,7 @@ Explicitly excluded. Documented to prevent scope creep.
 | Multi-digit numbers | Developmentally beyond a 2-3yo for now; single digits only |
 | On-screen keyboard diagram/hint | Pure hunt-and-peck on the physical keyboard is the pedagogical point |
 | Ads, in-app purchases, leaderboards, multiplayer | Irrelevant and developmentally inappropriate for this audience/scope |
-| Timers, countdowns, session-length pressure | Contradicts positive-reinforcement pedagogy for this age group |
+| Visible timers, countdowns, or any in-session pressure/urgency cue | Contradicts positive-reinforcement pedagogy for this age group. Distinct from SESSION-01..04 (Phase 4.1): a parent-set correct-match cap that ends the session with a celebration, not a ticking-clock mechanic the child perceives |
 | Aggressive analytics / tracking | Inconsistent with a private family tool |
 | Separate dev/staging branch | Single production deploy is sufficient per the stated constraint |
 
@@ -153,15 +160,19 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SET-03 | Phase 4.1 | Pending |
 | MENU-06 | Phase 4.1 | Pending |
 | FULL-04 | Phase 4.1 | Pending |
+| SESSION-01 | Phase 4.1 | Pending |
+| SESSION-02 | Phase 4.1 | Pending |
+| SESSION-03 | Phase 4.1 | Pending |
+| SESSION-04 | Phase 4.1 | Pending |
 | MOBILE-01 | Phase 4.2 | Pending |
 | MOBILE-02 | Phase 4.2 | Pending |
 
 **Coverage:**
 
-- v1 requirements: 44 total
-- Mapped to phases: 44
+- v1 requirements: 48 total
+- Mapped to phases: 48
 - Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-08-12*
-*Last updated: 2026-08-12 after roadmap creation*
+*Last updated: 2026-08-15 — added SESSION-01..04 (Phase 4.1) per user request*

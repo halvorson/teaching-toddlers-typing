@@ -4,10 +4,10 @@ current_phase: 04
 current_phase_name: Session Statistics
 status: planning
 stopped_at: Completed 03.1-02-PLAN.md
-last_updated: "2026-08-15T00:03:58.184Z"
+last_updated: "2026-08-15T15:00:35.310Z"
 last_activity: 2026-08-14
 last_activity_desc: Phase 03.1 execution started
-state_head: 8a76fbfe6d802e276f8ae377cdeb48f8df6e13b4
+state_head: 94f27f6d3e55c335e8856ca56d014741e2d57a08
 progress:
   total_phases: 8
   completed_phases: 2
@@ -107,6 +107,7 @@ None yet.
 - Phase 3.1 inserted after Phase 3 (originally created as "4.1" after Phase 4, then moved ahead of Phase 4 per explicit user request — bugfixes wanted ASAP, ahead of net-new Statistics work): Bugfix & UX Polish — TTS "Capital" prefix, missing menu background motion, invisible star trail, left-aligned menu with title, "Teaching Toddlers Typing" branding correction, per user feedback while playing the deployed Phase 2/2.1/3 build (URGENT)
 - Phase 4.1 inserted after Phase 4 (renumbered from "4.2" when 3.1 moved): Feature Enhancements — 3-state sound control, Quit reconsideration, toggleable fullscreen, per same feedback round; depends on Phase 3.1
 - Phase 4.2 inserted after Phase 4.1 (renumbered from "4.3" when 3.1 moved): Mobile Support — virtual-keyboard trigger, on-screen back control, per same feedback round; isolated from 4.1 due to higher technical uncertainty (touch/virtual-keyboard event handling has no prior precedent in this codebase); depends on Phase 3.1
+- Phase 4.1 edited: added SESSION-01..04 (Max # of letters cap, graceful end celebration, counter reset, 'one more letter' override) per user request after Phase 3.1 shipped
 
 ## Deferred Verification
 

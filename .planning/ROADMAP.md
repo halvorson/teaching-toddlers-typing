@@ -168,15 +168,19 @@ Plans:
 
 ### Phase 4.1: Feature Enhancements (INSERTED)
 
-**Goal**: Parents get more control over the celebration sound and fullscreen behavior, and Quit's role in the app is reconsidered
+**Goal**: Parents get more control over the celebration sound, fullscreen behavior, and session length, and Quit's role in the app is reconsidered
 **Mode:** mvp
 **Depends on**: Phase 3.1
-**Requirements**: SET-03, MENU-06, FULL-04
+**Requirements**: SET-03, MENU-06, FULL-04, SESSION-01, SESSION-02, SESSION-03, SESSION-04
 **Success Criteria** (what must be TRUE):
 
   1. Settings' sound control is 3-state — Off / Chime / Spoken letter — replacing today's binary on/off toggle, still persisted and defaulting to the equivalent of today's on-state
   2. Quit's behavior has been reconsidered through discussion and either redesigned or removed based on that conversation
   3. A Settings toggle controls whether starting a mode auto-enters fullscreen, defaulting to on (matching today's behavior)
+  4. A Settings "Max # of letters" control sets a session length cap (number of correct matches) applying to Letters, Numbers, and Alphabet modes
+  5. Reaching the cap — or, in Alphabet mode, reaching Z, whichever comes first — ends the session gracefully with the existing bigger (Alphabet-completion-style) celebration, followed by a Game Over/Congrats screen
+  6. The correct-match counter resets whenever a mode is (re-)entered
+  7. The Game Over/Congrats screen offers a subtle "One more letter" option (a nod to the "one more turn" mechanic) that overrides the cap and continues the session for one more round
 
 **Plans**: TBD
 **UI hint**: yes
