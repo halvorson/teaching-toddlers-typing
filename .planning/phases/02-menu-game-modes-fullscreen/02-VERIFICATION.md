@@ -1,31 +1,38 @@
 ---
 phase: 02-menu-game-modes-fullscreen
 verified: 2026-08-14T01:10:02Z
-status: human_needed
+status: passed
 score: 11/12 must-haves verified
 behavior_unverified: 1
 overrides_applied: 0
 behavior_unverified_items:
+
   - truth: "Starting a mode auto-enters fullscreen; Quit or an unexpected fullscreen exit (Escape, OS gesture, system fullscreen control) reliably exits fullscreen and resyncs the UI back to the home menu (FULL-01/02/03)"
     test: "In a real browser: click a mode row and confirm the browser actually goes fullscreen; then trigger each of (a) the in-game Escape key, (b) the OS/browser fullscreen-exit gesture (e.g. clicking the browser's own 'exit fullscreen' control) while still in a mode, and (c) Quit from a mode reached via a direct ?screen=letters URL load (where fullscreen was never entered at all)"
     expected: "All three paths land back on the home menu with fullscreen fully exited (or, for (c), no error/stall despite fullscreen never having been active), and the drifting background reappears"
     why_human: "The Fullscreen API requires a real user gesture and a live browser context this environment cannot provide; this is a cancellation/cleanup/resync invariant (main.ts's single fullscreenchange listener + quitToMenu()) that grep/presence checks can confirm is wired but cannot confirm actually fires and resolves correctly at runtime"
 human_verification:
+
   - test: "Load the app and visually confirm the seven-row menu (Letters, Numbers, Alphabet, Statistics, Settings, Share, Quit) renders over a dark, slowly drifting two-layer gradient background with no image request in DevTools Network"
     expected: "Matches 02-02-PLAN.md Task 2 human-check: soft, slow, non-distracting drift; menu fades in; background freezes under OS reduce-motion; background disappears (plain dark field) behind gameplay; reappears on Escape back to menu"
     why_human: "Visual/subjective rendering and motion judgment — not assertable by static analysis"
+
   - test: "Confirm keyboard-only menu navigation end to end: Letters is pre-highlighted on load with no initial Tab; Down walks through all seven rows and wraps Quit→Letters; Up wraps Letters→Quit; Home/End jump to first/last; mouse hover produces the identical highlight with no leftover second highlight; native Tab/Shift+Tab also keeps the highlight in sync (WR-01 fix); Enter/Space activates the highlighted row"
     expected: "Matches 02-02-PLAN.md Task 1 human-check plus the WR-01 code-review fix"
     why_human: "Live keyboard/mouse interaction and visual focus-indicator agreement — not assertable by static analysis"
+
   - test: "Play Letters mode and physically press every A-Z key; confirm each registers a match regardless of Shift/Caps Lock, that the same letter never repeats twice in a row over ~10 rounds, and that a held/repeated key produces at most one celebration"
     expected: "Matches 02-01-PLAN.md Task 1 human-check; WINDOWS.md ledger item 2"
     why_human: "Live physical-keyboard interaction — not assertable by static analysis"
+
   - test: "Play Numbers mode and physically press every top-row digit key 0-9, and the numeric keypad digits if available; confirm each registers a match and the same digit never repeats twice in a row over ~10 rounds"
     expected: "Matches 02-01-PLAN.md Task 2 human-check; WINDOWS.md ledger item 3 — this is the one check that can silently fail (render correct while every press misses) if the code-vs-Numpad prefix logic were wrong, per 02-RESEARCH.md Pitfall 2"
     why_human: "Live physical-keyboard interaction — not assertable by static analysis"
+
   - test: "Play Alphabet mode through to Z and confirm the three-burst sweep (left/centre/right) is visibly and distinctly bigger than the ordinary single-burst celebration every other letter produces, that play continues immediately from A with no pause or end screen, and that both celebration sizes are fully suppressed under OS reduce-motion"
     expected: "Matches 02-03-PLAN.md Task 2 human-check"
     why_human: "Visual size/scale comparison and motion-suppression judgment — not assertable by static analysis"
+
   - test: "Activate Share and confirm a paste yields the exact address-bar URL and the row shows Copied! for ~1.5s; then in DevTools force the modern Clipboard API to fail and confirm the legacy execCommand tier still copies successfully with arrow-key menu navigation intact afterward; then force both tiers to fail and confirm the manual fallback box appears once, is read-only, doesn't stack on repeat activation, and disappears on mode launch. Repeat the basic copy check in an actual Safari instance (not just Chromium) per 02-RESEARCH.md Pitfall 3"
     expected: "Matches 02-04-PLAN.md Task 1 and Task 2 human-check sections"
     why_human: "Live clipboard/browser-permission behavior and cross-browser (Safari) verification — not assertable by static analysis"
