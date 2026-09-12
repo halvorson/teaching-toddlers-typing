@@ -14,7 +14,7 @@ Teaching Toddlers Typing ships as vertical slices, each one a playable step towa
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Playable Core Loop & Live Deploy** - A single game mode is playable end-to-end, live on GitHub Pages (completed 2026-08-13)
-- [ ] **Phase 2: Menu, Game Modes & Fullscreen** - Full menu, all three modes, fullscreen play, and share link
+- [x] **Phase 2: Menu, Game Modes & Fullscreen** - Full menu, all three modes, fullscreen play, and share link (completed 2026-09-12)
 - [ ] **Phase 2.1: Progression Trail & Celebration Polish (INSERTED)** - Ambient star trail on correct matches, bigger/viewport-scaled confetti
 - [ ] **Phase 3: Sound & Audio Settings** - Correct matches chime and speak, with a sound toggle
 - [x] **Phase 3.1: Bugfix & UX Polish (INSERTED)** - Fix TTS "Capital" prefix, restore missing menu background motion, fix invisible star trail, left-aligned menu with title, correct project branding (completed 2026-08-14)
