@@ -10,10 +10,10 @@ last_activity_desc: Phase 03.1 execution started
 state_head: 5093f7efb241d51ea354039a1d0d63bf03115b71
 progress:
   total_phases: 8
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 12
   completed_plans: 12
-  percent: 38
+  percent: 50
 ---
 
 # Project State
@@ -109,12 +109,12 @@ None yet.
 - Phase 4.2 inserted after Phase 4.1 (renumbered from "4.3" when 3.1 moved): Mobile Support — virtual-keyboard trigger, on-screen back control, per same feedback round; isolated from 4.1 due to higher technical uncertainty (touch/virtual-keyboard event handling has no prior precedent in this codebase); depends on Phase 3.1
 - Phase 4.1 edited: added SESSION-01..04 (Max # of letters cap, graceful end celebration, counter reset, 'one more letter' override) per user request after Phase 3.1 shipped
 - [Phase 02 UAT, 2026-09-12]: Manual UAT completed conversationally via /gsd:verify-work — 6/7 tests passed, 1 skipped (Letters mode no-repeat sub-check not specifically validated, though key-matching itself was confirmed working). User elected to force the phase-complete transition despite the one skipped sub-check rather than block on it. Phase 02 marked complete in ROADMAP.md; 02-VERIFICATION.md status canonicalized to passed.
+- [Phase 02.1 UAT, 2026-09-12]: Manual UAT completed conversationally via /gsd:verify-work — 5/5 tests passed, 0 issues, no forcing needed. Test 3 (viewport-scaled confetti) verified via laptop-vs-desktop monitor comparison instead of window-resize-vs-fullscreen, since exiting fullscreen mid-mode correctly returns to the menu (not a bug). Phase 02.1 marked complete in ROADMAP.md; 02.1-VERIFICATION.md status canonicalized to passed.
 
 ## Deferred Verification
 
 | Phase | State | Resume |
 |-------|-------|--------|
-| 02.1 | verification_deferred_human | /gsd:verify-work 02.1 |
 | 03 | verification_deferred_human | /gsd:verify-work 03 |
 
 ## Deferred Items
